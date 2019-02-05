@@ -19,6 +19,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
         // Context of the app under test.
+        //sherry
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.example.helloworldapp", appContext.getPackageName());
