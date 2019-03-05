@@ -9,29 +9,59 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_height="17dp"
+        android:text="ScanMe Rough Draft"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="196dp"
-        android:layout_height="186dp"
-        android:layout_marginBottom="8dp"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        tools:layout_editor_absoluteX="97dp" />
+    //Create Button
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="251dp"
-        android:layout_height="179dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="68dp" />
+        android:layout_width="93dp"
+        android:layout_height="92dp"
+        android:text="Create"
+        tools:layout_editor_absoluteX="302dp"
+        tools:layout_editor_absoluteY="623dp" />
 
+    //Print Button
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Print"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="34dp" />
+
+    //Scan Button
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scan"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="667dp" />
+
+    //Search Button
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        tools:layout_editor_absoluteX="296dp"
+        tools:layout_editor_absoluteY="34dp" />
+    =======
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="button test v2"
+        tools:layout_editor_absoluteX="230dp"
+        tools:layout_editor_absoluteY="443dp" />
+>>>>>>> 3bd539da2c2e4efd4fde938dfec0ec89895ade6a
+
+=======
+>>>>>>> 90ccba1cb08c67e89adc0ced18184147f0ae5f4e
 </android.support.constraint.ConstraintLayout>
