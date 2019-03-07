@@ -1,4 +1,4 @@
-package com.example.helloworldapp;
+package com.github.scanme;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
