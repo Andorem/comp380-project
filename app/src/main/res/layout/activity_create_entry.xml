@@ -4,28 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context="com.github.scanme.CreateEntryActivity">
 <LinearLayout
     android:id="@+id/linearLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.github.scanme.CreateEntryActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <RelativeLayout
+        android:id="@+id/cameraBackground"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.5"
-        android:minHeight="150dp"
-        android:background="#00BFA5">
+        android:minHeight="175dp"
+        android:background="#00BFA5"
+        android:onClick="takePicture">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/cameraButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:clickable="true"
+            android:onClick="takePicture"
             android:tint="@android:color/white"
             app:backgroundTint="@color/colorPrimary"
             app:fabCustomSize="100dp"
