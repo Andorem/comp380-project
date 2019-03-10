@@ -1,67 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="17dp"
-        android:text="ScanMe Rough Draft"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    //Create Button
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="93dp"
-        android:layout_height="92dp"
-        android:text="Create"
-        tools:layout_editor_absoluteX="302dp"
-        tools:layout_editor_absoluteY="623dp" />
+    </android.support.design.widget.AppBarLayout>
 
-    //Print Button
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".MainActivity"
+        tools:showIn="@layout/activity_main">
 
-    <Button
-        android:id="@+id/button3"
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/createButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Print"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="34dp" />
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@color/lightOrange"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
-    //Scan Button
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Scan"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="667dp" />
-
-    //Search Button
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search"
-        tools:layout_editor_absoluteX="296dp"
-        tools:layout_editor_absoluteY="34dp" />
-    =======
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="button test v2"
-        tools:layout_editor_absoluteX="230dp"
-        tools:layout_editor_absoluteY="443dp" />
->>>>>>> 3bd539da2c2e4efd4fde938dfec0ec89895ade6a
-
-=======
->>>>>>> 90ccba1cb08c67e89adc0ced18184147f0ae5f4e
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>
