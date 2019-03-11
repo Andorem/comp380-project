@@ -26,6 +26,11 @@ public class CreateEntryActivity extends AppCompatActivity {
 
     protected static final int PERMREQ_CAMERA = 1;
 
+    public static final String ENTRY_ID = "com.github.scanme.ENTRY_ID";
+    public static final String ENTRY_TITLE = "com.github.scanme.ENTRY_TITLE";
+    public static final String ENTRY_DESCRIPTION = "com.github.scanme.ENTRY_DESCRIPTION";
+    public static final String ENTRY_IMAGEPATH = "com.github.scanme.ENTRY_IMAGEPATH";
+
     private RelativeLayout cameraBackground;
     private FloatingActionButton cameraButton;
     private File imageFile;

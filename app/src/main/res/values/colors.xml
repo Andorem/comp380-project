@@ -9,4 +9,6 @@
     <color name="lightGreen">#69F5B6</color>
     <color name="lightBlue">#83C1FF</color>
     <color name="brightGreen">#25E574</color>
+    <color name="lightGray">#D7D7D7</color>
+    <color name="darkGray">#3E3F3F</color>
 </resources>
