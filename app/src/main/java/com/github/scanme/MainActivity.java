@@ -1,5 +1,6 @@
 package com.github.scanme;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +30,13 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        Intent intent = getIntent();
+        if (intent != null) { // Activity called after entry created/edited
+            Bundle entryData = getIntent().getExtras();
+        }
+
     }
+
 
 }

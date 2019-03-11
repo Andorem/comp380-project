@@ -30,6 +30,8 @@ public class CreateEntryActivity extends AppCompatActivity {
     private FloatingActionButton cameraButton;
     private File imageFile;
     private ImageView entryImage;
+    private String ID;
+    private EditText editTitle, editDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,10 @@ public class CreateEntryActivity extends AppCompatActivity {
         cameraBackground = findViewById(R.id.cameraBackground);
         cameraButton = findViewById(R.id.cameraButton);
         entryImage = findViewById(R.id.entryImage);
+        editTitle = findViewById(R.id.editTitle);
+        editDescription = findViewById(R.id.editDescription);
+
+        ID = UUID.randomUUID().toString();
     }
 
     public void takePicture(View view) {
@@ -55,10 +61,6 @@ public class CreateEntryActivity extends AppCompatActivity {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
-    }
-
-    public void saveEntry(View view) {
-
     }
 
     @Override
@@ -86,9 +88,20 @@ public class CreateEntryActivity extends AppCompatActivity {
     }
 
     public Uri createImageURI() {
-        imageFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "IMG_" + UUID.randomUUID().toString() + ".png");
+        imageFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "IMG_" + ID + ".png");
         Uri fileProvider = FileProvider.getUriForFile(CreateEntryActivity.this, "com.codepath.fileprovider", imageFile);
         return fileProvider;
+    }
+
+    public void saveEntry(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        Bundle entryData = new Bundle();
+        entryData.putString("ENTRY_ID", ID);
+        entryData.putString("ENTRY_TITLE", editTitle.getText().toString());
+        entryData.putString("ENTRY_DESCRIPTION", editDescription.getText().toString());
+        entryData.putString("ENTRY_IMAGEPATH", imageFile.getAbsolutePath());
+        intent.putExtras(entryData);
+        startActivity(intent);
     }
 
 }
