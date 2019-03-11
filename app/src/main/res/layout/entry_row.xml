@@ -23,7 +23,9 @@
         android:layout_toRightOf="@+id/thumbnail"
         android:textColor="@color/darkGray"
         android:textSize="20dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
     <TextView
         android:id="@+id/description"
@@ -32,6 +34,8 @@
         android:layout_below="@id/title"
         android:layout_toRightOf="@+id/thumbnail"
         android:layout_marginTop="1dp"
-        android:textSize="13dp"/>
+        android:textSize="13dp"
+        android:ellipsize="end"
+        android:maxLines="2"/>
 
 </RelativeLayout>

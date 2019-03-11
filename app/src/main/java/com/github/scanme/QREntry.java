@@ -1,8 +1,8 @@
 package com.github.scanme;
 
 public class QREntry {
-    final String ID;
-    String title, description, imagePath;
+    private final String ID;
+    private String title, description, imagePath;
 
     QREntry(String ID, String title, String imagePath) {
         this(ID, title, "", imagePath);

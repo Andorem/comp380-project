@@ -40,9 +40,9 @@ public class EntriesListAdapter implements ListAdapter {
             TextView entryDescription = entryView.findViewById(R.id.description);
             ImageView entryImage = entryView.findViewById(R.id.thumbnail);
 
-            entryTitle.setText(entry.title);
-            entryDescription.setText(entry.description);
-            Bitmap image = BitmapFactory.decodeFile(entry.imagePath);
+            entryTitle.setText(entry.getTitle());
+            entryDescription.setText(entry.getDescription());
+            Bitmap image = BitmapFactory.decodeFile(entry.getImagePath());
             entryImage.setImageBitmap(image);
         }
         return entryView;
