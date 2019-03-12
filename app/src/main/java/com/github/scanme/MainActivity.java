@@ -19,19 +19,19 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<QREntry> entriesData = new ArrayList<>();
-    EntriesListAdapter entriesAdapter;
-    ListView entriesList;
+    ArrayList<QREntry> entriesData = new ArrayList<>();//
+    EntriesListAdapter entriesAdapter;//
+    ListView entriesList;//
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);//Andy: bottom up
         setSupportActionBar(toolbar);
 
         FloatingActionButton createButton = findViewById(R.id.createButton);
-        createButton.setOnClickListener(new View.OnClickListener() {
+        createButton.setOnClickListener(new View.OnClickListener() {//listener
             @Override
             public void onClick(View v){
                 openCreateEntryActivity();
