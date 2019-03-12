@@ -29,6 +29,14 @@
         tools:context=".MainActivity"
         tools:showIn="@layout/activity_main">
 
+        <ListView
+            android:id="@+id/entriesList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/lightGray"
+            android:footerDividersEnabled="false"
+            android:dividerHeight=".5dp" />
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -40,6 +48,8 @@
         app:backgroundTint="@color/lightOrange"
         android:onClick="sendTo"
         android:clickable="true"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:tint="@android:color/white"
+        app:maxImageSize="35dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
