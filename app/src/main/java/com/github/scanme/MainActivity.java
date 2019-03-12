@@ -44,10 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) { // Activity called after entry created/edited
-            Bundle entryData = getIntent().getExtras();
-            updateEntryList(new QREntry(entryData.getString("ENTRY_ID"), entryData.getString("ENTRY_TITLE"), entryData.getString("ENTRY_DESCRIPTION"), entryData.getString("ENTRY_IMAGEPATH")));
+            Bundle entryData = intent.getExtras();
+            if (entryData != null) {
+                updateEntryList(new QREntry(entryData.getString("ENTRY_ID"), entryData.getString("ENTRY_TITLE"), entryData.getString("ENTRY_DESCRIPTION"), entryData.getString("ENTRY_IMAGEPATH")));
+            }
         }
-
     }
 
     void updateEntryList(QREntry entry) {
