@@ -53,6 +53,11 @@ public class EntriesListAdapter extends ArrayAdapter<QR> {
         entriesData = entries;
         notifyDataSetChanged();
     }
+
+    public int getCount() {
+        return entriesData.size();
+    }
+
    /* @Override
     public boolean areAllItemsEnabled() {
         return true;
@@ -76,11 +81,6 @@ public class EntriesListAdapter extends ArrayAdapter<QR> {
     @Override
     public boolean hasStableIds() {
         return false;
-    }
-
-    @Override
-    public int getCount() {
-        return entriesData.size();
     }
 
     @Override
