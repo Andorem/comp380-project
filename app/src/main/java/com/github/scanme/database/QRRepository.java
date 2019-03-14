@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
-
 public class QRRepository {
     private QRDao qrDao;
     private LiveData<List<QR>> QRs;
@@ -24,7 +23,7 @@ public class QRRepository {
         QRs = qrDao.getAll();
     }
 
-    LiveData<List<QR>> getAllQRs() {
+    public LiveData<List<QR>> getAllQRs() {
         return QRs;
     }
     public void insert(QR qr) {

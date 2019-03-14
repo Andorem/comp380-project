@@ -13,6 +13,7 @@
 package com.github.scanme.database;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -22,6 +23,7 @@ public class QR {
 
     /* Table Columns */
     @PrimaryKey
+    @NonNull
     public String ID;
 
     public String title;
@@ -30,6 +32,7 @@ public class QR {
     public String toLoc;
     public String imagePath;
 
+    /*
     public QR(String ID, String title, String description, String fromLoc, String toLoc, String imagePath) {
         this.ID = ID;
         this.title = title;
@@ -38,6 +41,7 @@ public class QR {
         this.toLoc = toLoc;
         this.imagePath = imagePath;
     }
+    */
 
     public QR(String ID, String title, String description, String imagePath) {
         this.ID = ID;
@@ -72,16 +76,14 @@ public class QR {
     public String getFrom() {
         return fromLoc;
     }
-    public void setFrom(String from) {
-        this.fromLoc = from;
+    public void setFrom(String fromLoc) {
+        this.fromLoc = fromLoc;
     }
 
     public String getTo() {
         return toLoc;
     }
-    public void setTo(String to) {
-        this.toLoc = to;
-    }
+    public void setTo(String toLoc) { this.toLoc = toLoc; }
 
     public String getImagePath() {
         return imagePath;
