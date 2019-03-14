@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     EntriesListAdapter entriesAdapter;
     ListView entriesList;
 
-    private QRRepository qrRepo = new QRRepository(getApplication());
+    private QRRepository qrRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 updateEntryList(new QR(entryData.getString("ENTRY_ID"), entryData.getString("ENTRY_TITLE"), entryData.getString("ENTRY_DESCRIPTION"), entryData.getString("ENTRY_IMAGEPATH")));
             }
         }*/
+
+        qrRepo = new QRRepository(getApplication());
         qrRepo.getAllQRs().observe((LifecycleOwner) this, new Observer<List<QR>>() {
             @Override
             public void onChanged(@Nullable final List<QR> QRs) {
