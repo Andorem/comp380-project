@@ -84,8 +84,7 @@ public class CreateEntryActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int request, int result, Intent intentData) {
         if (request == PERMREQ_CAMERA && result == RESULT_OK) {
-            Bitmap resImage = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-            entryImage.setImageBitmap(resImage);
+            entryImage.setImageBitmap(BitmapHandler.rotateImage(this, imageFile.getAbsolutePath()));
             entryImage.setVisibility(View.VISIBLE);
             cameraButton.setVisibility(View.GONE);
         }
@@ -101,12 +100,6 @@ public class CreateEntryActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         QR newQR = new QR(ID, editTitle.getText().toString(), editDescription.getText().toString(), imageFile.getAbsolutePath());
         qrRepo.insert(newQR);
-        /*Bundle entryData = new Bundle();
-        entryData.putString("ENTRY_ID", ID);
-        entryData.putString("ENTRY_TITLE", editTitle.getText().toString());
-        entryData.putString("ENTRY_DESCRIPTION", editDescription.getText().toString());
-        entryData.putString("ENTRY_IMAGEPATH", imageFile.getAbsolutePath());
-        intent.putExtras(entryData);*/
         startActivity(intent);
     }
 

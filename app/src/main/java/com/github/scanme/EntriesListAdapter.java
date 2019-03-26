@@ -43,7 +43,7 @@ public class EntriesListAdapter extends ArrayAdapter<QR> {
 
             entryTitle.setText(entry.getTitle());
             entryDescription.setText(entry.getDescription());
-            Bitmap image = BitmapFactory.decodeFile(entry.getImagePath());
+            Bitmap image = BitmapHandler.decodeAsThumbnail(getContext(), entry.getImagePath(), 200,200);
             entryImage.setImageBitmap(image);
         }
         return entryView;
