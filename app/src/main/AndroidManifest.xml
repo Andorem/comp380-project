@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ViewEntry"
+            android:name=".ViewEntryActivity"
             android:label="@string/title_activity_view_entry"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".CreateEntryActivity" />
