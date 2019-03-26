@@ -19,15 +19,17 @@
 
             <!-- Entry Image -->
 
+            <!-- Entry Details -->
+
             <RelativeLayout
                 android:id="@+id/cameraBackground"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
-                android:minHeight="175dp"
                 android:background="#00BFA5"
-                android:onClick="takePicture"
-                android:focusable="true">
+                android:focusable="true"
+                android:minHeight="175dp"
+                android:onClick="takePicture">
 
 
                 <ImageView
@@ -36,7 +38,7 @@
                     android:layout_height="175dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/cameraButton"
@@ -51,8 +53,6 @@
                     app:maxImageSize="70dp"
                     app:srcCompat="@drawable/ic_camera_foreground" />
             </RelativeLayout>
-
-            <!-- Entry Details -->
 
             <RelativeLayout
                 android:layout_width="match_parent"
