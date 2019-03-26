@@ -1,6 +1,5 @@
 package com.github.scanme;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import android.content.Intent;
 import androidx.annotation.Nullable;
@@ -46,37 +45,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Populate list with custom layouts (adapter) for each entry (image, title, description, etc...)
         entriesData = new ArrayList<>();
         entriesList = findViewById(R.id.entriesList);
         entriesAdapter = new EntriesListAdapter(this, entriesData);
         entriesList.setAdapter(entriesAdapter);
 
-        /*Intent intent = getIntent();
-        if (intent != null) { // Activity called after entry created/edited
-            Bundle entryData = intent.getExtras();
-            if (entryData != null) {
-                updateEntryList(new QR(entryData.getString("ENTRY_ID"), entryData.getString("ENTRY_TITLE"), entryData.getString("ENTRY_DESCRIPTION"), entryData.getString("ENTRY_IMAGEPATH")));
-            }
-        }*/
-
+        // Update the cached copy of the entries in the adapter
         qrRepo = new QRRepository(getApplication());
-        qrRepo.getAllQRs().observe((LifecycleOwner) this, new Observer<List<QR>>() {
+        qrRepo.getAllQRs().observe(this, new Observer<List<QR>>() {
             @Override
             public void onChanged(@Nullable final List<QR> QRs) {
-                // Update the cached copy of the words in the adapter.
                 entriesAdapter.updateEntries(QRs);
             }
         });
     }
 
-   /* void updateEntryList(QR entry) {
-        entriesData.add(entry);
-        entriesAdapter = new EntriesListAdapter(this, entriesData);
-        entriesList.setAdapter(entriesAdapter);
-    }*/
-
-
-    //This is the intent used for create button(main activity) ---> createEntryActivity.java
+    // This is the intent used for create button(main activity) ---> createEntryActivity.java
     public void openCreateEntryActivity(){
         Intent intent  = new Intent(this, CreateEntryActivity.class);
         startActivity(intent);
