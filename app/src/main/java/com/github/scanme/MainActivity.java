@@ -9,6 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -50,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
         entriesList = findViewById(R.id.entriesList);
         entriesAdapter = new EntriesListAdapter(this, entriesData);
         entriesList.setAdapter(entriesAdapter);
+        entriesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openViewEntryActivity(entriesAdapter.getItem(position).getId());
+            }
+        });
 
         // Update the cached copy of the entries in the adapter
         qrRepo = new QRRepository(getApplication());
@@ -64,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
     // This is the intent used for create button(main activity) ---> createEntryActivity.java
     public void openCreateEntryActivity(){
         Intent intent  = new Intent(this, CreateEntryActivity.class);
+        startActivity(intent);
+    }
+
+    public void openViewEntryActivity(String id){
+        Intent intent  = new Intent(this, CreateEntryActivity.class);
+        intent.putExtra("ID", id);
         startActivity(intent);
     }
 }
