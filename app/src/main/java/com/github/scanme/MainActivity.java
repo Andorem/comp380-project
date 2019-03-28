@@ -66,4 +66,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent  = new Intent(this, CreateEntryActivity.class);
         startActivity(intent);
     }
+
+    public void openViewEntryActivity(){
+        Intent intent = new Intent(this, CreateEntryActivity.class);
+        startActivity(intent);
+    }
 }

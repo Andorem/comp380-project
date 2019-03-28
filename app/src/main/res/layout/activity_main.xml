@@ -35,6 +35,8 @@
             android:layout_height="match_parent"
             android:divider="@color/lightGray"
             android:footerDividersEnabled="false"
+            android:onClick="sendTo"
+            android:clickable="true"
             android:dividerHeight=".5dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
