@@ -33,7 +33,6 @@ public class genQR extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         imageView = (ImageView)findViewById(R.id.imageView);
-
     }
 
     Bitmap Encoder(String Value) throws WriterException {
