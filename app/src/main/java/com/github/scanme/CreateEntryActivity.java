@@ -1,6 +1,7 @@
 package com.github.scanme;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,11 +14,17 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import com.google.zxing.WriterException;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
+
 
 import java.io.File;
 import java.util.UUID;
@@ -32,6 +39,7 @@ public class CreateEntryActivity extends AppCompatActivity {
     private ImageView entryImage;
     private String ID;
     private EditText editTitle, editDescription;
+    private genQR qr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,7 @@ public class CreateEntryActivity extends AppCompatActivity {
         editDescription = findViewById(R.id.editDescription);
 
         ID = UUID.randomUUID().toString();
+        qr = createQR();
     }
 
     public void takePicture(View view) {
@@ -77,6 +86,7 @@ public class CreateEntryActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onActivityResult(int request, int result, Intent intentData) {
         if (request == PERMREQ_CAMERA && result == RESULT_OK) {
@@ -91,6 +101,17 @@ public class CreateEntryActivity extends AppCompatActivity {
         imageFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "IMG_" + ID + ".png");
         Uri fileProvider = FileProvider.getUriForFile(CreateEntryActivity.this, "com.codepath.fileprovider", imageFile);
         return fileProvider;
+    }
+
+    public genQR createQR(){
+        genQR newQR = new genQR();
+        try {
+            newQR.Encoder(ID);
+
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+        return newQR;
     }
 
     public void saveEntry(View view) {
