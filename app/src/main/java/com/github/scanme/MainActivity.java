@@ -51,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
         entriesAdapter = new EntriesListAdapter(this, entriesData);
         entriesList.setAdapter(entriesAdapter);
 
+        entriesList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                openViewEntryActivity();
+            }
+        });
+
+
         // Update the cached copy of the entries in the adapter
         qrRepo = new QRRepository(getApplication());
         qrRepo.getAllQRs().observe(this, new Observer<List<QR>>() {
@@ -68,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openViewEntryActivity(){
-        Intent intent = new Intent(this, CreateEntryActivity.class);
+        Intent intent = new Intent(this, ViewEntryActivity.class);
         startActivity(intent);
     }
 }
