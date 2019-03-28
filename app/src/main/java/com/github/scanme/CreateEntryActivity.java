@@ -9,12 +9,11 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -26,12 +25,16 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 
 
+import com.github.scanme.database.QR;
+import com.github.scanme.database.QRRepository;
+
 import java.io.File;
 import java.util.UUID;
 
 public class CreateEntryActivity extends AppCompatActivity {
 
     protected static final int PERMREQ_CAMERA = 1;
+    private QRRepository qrRepo = new QRRepository(getApplication());
 
     private RelativeLayout cameraBackground;
     private FloatingActionButton cameraButton;
@@ -86,12 +89,10 @@ public class CreateEntryActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("RestrictedApi")
     @Override
     protected void onActivityResult(int request, int result, Intent intentData) {
         if (request == PERMREQ_CAMERA && result == RESULT_OK) {
-            Bitmap resImage = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-            entryImage.setImageBitmap(resImage);
+            entryImage.setImageBitmap(BitmapHandler.rotateImage(this, imageFile.getAbsolutePath()));
             entryImage.setVisibility(View.VISIBLE);
             cameraButton.setVisibility(View.GONE);
         }
@@ -116,12 +117,8 @@ public class CreateEntryActivity extends AppCompatActivity {
 
     public void saveEntry(View view) {
         Intent intent = new Intent(this, MainActivity.class);
-        Bundle entryData = new Bundle();
-        entryData.putString("ENTRY_ID", ID);
-        entryData.putString("ENTRY_TITLE", editTitle.getText().toString());
-        entryData.putString("ENTRY_DESCRIPTION", editDescription.getText().toString());
-        entryData.putString("ENTRY_IMAGEPATH", imageFile.getAbsolutePath());
-        intent.putExtras(entryData);
+        QR newQR = new QR(ID, editTitle.getText().toString(), editDescription.getText().toString(), imageFile.getAbsolutePath());
+        qrRepo.insert(newQR);
         startActivity(intent);
     }
 

@@ -1,16 +1,21 @@
 package com.github.scanme;
 
+import androidx.lifecycle.Observer;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
+
 import java.util.ArrayList;
-import com.github.scanme.QREntry;
-import com.github.scanme.EntriesListAdapter;
+import java.util.List;
+
+import com.github.scanme.database.QR;
+import com.github.scanme.database.QRRepository;
 
 /*
 import android.widget.Toast;
@@ -19,9 +24,11 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<QREntry> entriesData = new ArrayList<>();
+    List<QR> entriesData;
     EntriesListAdapter entriesAdapter;
     ListView entriesList;
+
+    private QRRepository qrRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,27 +45,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Populate list with custom layouts (adapter) for each entry (image, title, description, etc...)
+        entriesData = new ArrayList<>();
         entriesList = findViewById(R.id.entriesList);
         entriesAdapter = new EntriesListAdapter(this, entriesData);
         entriesList.setAdapter(entriesAdapter);
 
-        Intent intent = getIntent();
-        if (intent != null) { // Activity called after entry created/edited
-            Bundle entryData = intent.getExtras();
-            if (entryData != null) {
-                updateEntryList(new QREntry(entryData.getString("ENTRY_ID"), entryData.getString("ENTRY_TITLE"), entryData.getString("ENTRY_DESCRIPTION"), entryData.getString("ENTRY_IMAGEPATH")));
+        // Update the cached copy of the entries in the adapter
+        qrRepo = new QRRepository(getApplication());
+        qrRepo.getAllQRs().observe(this, new Observer<List<QR>>() {
+            @Override
+            public void onChanged(@Nullable final List<QR> QRs) {
+                entriesAdapter.updateEntries(QRs);
             }
-        }
+        });
     }
 
-    void updateEntryList(QREntry entry) {
-        entriesData.add(entry);
-        entriesAdapter = new EntriesListAdapter(this, entriesData);
-        entriesList.setAdapter(entriesAdapter);
-    }
-
-
-    //This is the intent used for create button(main activity) ---> createEntryActivity.java
+    // This is the intent used for create button(main activity) ---> createEntryActivity.java
     public void openCreateEntryActivity(){
         Intent intent  = new Intent(this, CreateEntryActivity.class);
         startActivity(intent);
