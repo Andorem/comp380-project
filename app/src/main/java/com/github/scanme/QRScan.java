@@ -4,11 +4,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import static com.github.scanme.CreateEntryActivity.PERMREQ_CAMERA;
 
@@ -31,7 +32,7 @@ public class QRScan extends AppCompatActivity {
             // Permission already been granted
             final int REQUEST_IMAGE_CAPTURE = 1;
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // Call System Camera App
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, createImageURI());
+            // takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, createImageURI());
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }

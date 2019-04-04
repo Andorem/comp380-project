@@ -38,11 +38,20 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Initialize listeners for main screen buttons
         FloatingActionButton createButton = findViewById(R.id.createButton);
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 openCreateEntryActivity();
+            }
+        });
+
+        FloatingActionButton scanButton = findViewById(R.id.scanButton);
+        scanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                openQRScanActivity();
             }
         });
 
@@ -75,8 +84,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openViewEntryActivity(String id){
-        Intent intent  = new Intent(this, CreateEntryActivity.class);
+        Intent intent  = new Intent(this, ViewEntryActivity.class);
         intent.putExtra("ID", id);
+        startActivity(intent);
+    }
+
+    public void openQRScanActivity(){
+        Intent intent  = new Intent(this, QRScan.class);
         startActivity(intent);
     }
 }
