@@ -161,7 +161,8 @@
                                 android:textColor="@android:color/white"
                                 android:textSize="12dp"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:clickable="true" />
 
                             <Button
                                 android:id="@+id/tag3"
@@ -175,7 +176,8 @@
                                 android:textSize="12dp"
                                 app:layout_constraintEnd_toStartOf="@+id/tag5"
                                 app:layout_constraintStart_toEndOf="@+id/tag1"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:clickable="true"/>
 
                             <Button
                                 android:id="@+id/tag4"
@@ -189,7 +191,8 @@
                                 android:textSize="12dp"
                                 app:layout_constraintEnd_toStartOf="@+id/tag6"
                                 app:layout_constraintStart_toEndOf="@+id/tag5"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:clickable="true"/>
 
                             <Button
                                 android:id="@+id/tag5"
@@ -202,7 +205,8 @@
                                 app:layout_constraintEnd_toStartOf="@+id/tag4"
                                 app:layout_constraintHorizontal_bias="0.5"
                                 app:layout_constraintStart_toEndOf="@+id/tag3"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:clickable="true"/>
 
                             <Button
                                 android:id="@+id/tag6"
@@ -214,7 +218,8 @@
                                 android:textColor="@android:color/white"
                                 android:textSize="12dp"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:clickable="true"/>
                         </android.support.constraint.ConstraintLayout>
                     </HorizontalScrollView>
 
