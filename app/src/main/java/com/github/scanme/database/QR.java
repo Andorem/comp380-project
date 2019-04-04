@@ -31,6 +31,7 @@ public class QR {
     public String fromLoc;
     public String toLoc;
     public String imagePath;
+    public String qrPath;
 
     /*
     public QR(String ID, String title, String description, String fromLoc, String toLoc, String imagePath) {
@@ -43,11 +44,12 @@ public class QR {
     }
     */
 
-    public QR(String ID, String title, String description, String imagePath) {
+    public QR(String ID, String title, String description, String imagePath, String qrPath) {
         this.ID = ID;
         this.title = title;
         this.description = description;
         this.imagePath = imagePath;
+        this.qrPath = qrPath;
     }
 
     /* Getters and Setters */
@@ -90,5 +92,12 @@ public class QR {
     }
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public String getQrPath() {
+        return qrPath;
+    }
+    public void setQrPath(String qrPath) {
+        this.qrPath = qrPath;
     }
 }

@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         entriesList = findViewById(R.id.entriesList);
         entriesAdapter = new EntriesListAdapter(this, entriesData);
         entriesList.setAdapter(entriesAdapter);
-
         entriesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -75,9 +74,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     public void openViewEntryActivity(String id){
-        Intent intent = new Intent(this, ViewEntryActivity.class);
+        Intent intent  = new Intent(this, CreateEntryActivity.class);
         intent.putExtra("ID", id);
         startActivity(intent);
     }
