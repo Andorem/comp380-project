@@ -8,6 +8,8 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -55,17 +58,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         // Populate list with custom layouts (adapter) for each entry (image, title, description, etc...)
-        entriesData = new ArrayList<>();
-        entriesList = findViewById(R.id.entriesList);
-        entriesAdapter = new EntriesListAdapter(this, entriesData);
-        entriesList.setAdapter(entriesAdapter);
-        entriesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                openViewEntryActivity(entriesAdapter.getItem(position).getId());
-            }
-        });
+       entriesData = new ArrayList<>();
+       entriesList = findViewById(R.id.entriesList);
+       entriesAdapter = new EntriesListAdapter(this, entriesData);
+       entriesList.setAdapter(entriesAdapter);
 
         // Update the cached copy of the entries in the adapter
         qrRepo = new QRRepository(getApplication());
@@ -73,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable final List<QR> QRs) {
                 entriesAdapter.updateEntries(QRs);
+            }
+        });
+
+        entriesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("MAIN", "List row clicked for ID: " + entriesAdapter.getItem(position).getId());
+                openViewEntryActivity(entriesAdapter.getItem(position).getId());
             }
         });
     }

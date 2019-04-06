@@ -2,6 +2,7 @@ package com.github.scanme;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,7 +39,7 @@ public class genQR extends AppCompatActivity {
         this.context = context;
     }
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gen_qr);
@@ -45,7 +47,7 @@ public class genQR extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         imageView = (ImageView) findViewById(R.id.imageView);
-    }
+    }*/
 
     public void encode(String id) {
         new encodeAsync(id).execute(id);
@@ -56,7 +58,7 @@ public class genQR extends AppCompatActivity {
 
         encodeAsync(String id) {
             this.id = id;
-            Log.i("GENQR", "Starting QR encoding for ID:" + id);
+            Log.i("GENQR", "Starting QR encoding for ID: " + id);
         }
 
         @Override
@@ -67,13 +69,13 @@ public class genQR extends AppCompatActivity {
             } catch (WriterException e) {
                 e.printStackTrace();
             }
+            saveBitmap(id);
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            Log.i("GENQR", "QR successfully encoded for ID:" + id);
-            saveBitmap(id);
+            Log.i("GENQR", "QR successfully encoded for ID: " + id);
         }
     }
 
@@ -115,9 +117,10 @@ public class genQR extends AppCompatActivity {
             try {
                 FileOutputStream output = context.openFileOutput(filePath, Context.MODE_PRIVATE);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+                Log.i("GENQR", "QR File path: " + context.getFileStreamPath(filePath));
                 output.close();
 
-                Log.i("GENQR", "QR bitmap successfully saved for ID:" + id);
+                Log.i("GENQR", "QR bitmap successfully saved for ID: " + id);
             }
             catch (FileNotFoundException e) {
                 Log.e("GENQR", e.getMessage());

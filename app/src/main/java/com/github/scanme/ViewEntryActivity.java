@@ -2,13 +2,21 @@ package com.github.scanme;
 
 import android.os.Bundle;
 
+import com.github.scanme.database.QR;
+import com.github.scanme.database.QRRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.View;
 
 public class ViewEntryActivity extends AppCompatActivity {
+
+    String ID;
+    QR qr;
+    QRRepository qrRepo = new QRRepository(getApplication());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,12 +25,17 @@ public class ViewEntryActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ID = getIntent().getStringExtra("ID");
+        Log.d("VIEW_ENTRY", "ID retrieved: " + ID);
+        qrRepo = new QRRepository(getApplication());
+        qr = qrRepo.getQR(ID).getValue();
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "ID: " + ID, Snackbar.LENGTH_LONG)
+                        .show();
             }
         });
     }

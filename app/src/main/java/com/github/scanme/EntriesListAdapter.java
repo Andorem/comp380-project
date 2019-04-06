@@ -3,6 +3,7 @@ package com.github.scanme;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +32,7 @@ public class EntriesListAdapter extends ArrayAdapter<QR> {
         if(entryView == null) {
             LayoutInflater inflater = LayoutInflater.from(activityContext);
             entryView = inflater.inflate(R.layout.entry_row, null); // custom list item layout
-            entryView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Go to specific Entry screen
-                }
-            });
+
             TextView entryTitle = entryView.findViewById(R.id.title);
             TextView entryDescription = entryView.findViewById(R.id.description);
             ImageView entryImage = entryView.findViewById(R.id.thumbnail);
@@ -54,8 +50,19 @@ public class EntriesListAdapter extends ArrayAdapter<QR> {
         notifyDataSetChanged();
     }
 
+    @Override
     public int getCount() {
         return entriesData.size();
+    }
+
+    @Override
+    public QR getItem(int position) {
+        return entriesData.get(position);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return entriesData.isEmpty();
     }
 
    /* @Override
@@ -68,10 +75,7 @@ public class EntriesListAdapter extends ArrayAdapter<QR> {
         return true;
     }
 
-    @Override
-    public Object getItem(int position) {
-        return entriesData.get(position);
-    }
+
 
     @Override
     public long getItemId(int position) {
@@ -83,10 +87,6 @@ public class EntriesListAdapter extends ArrayAdapter<QR> {
         return false;
     }
 
-    @Override
-    public boolean isEmpty() {
-        return entriesData.isEmpty();
-    }
 
     @Override
     public int getItemViewType(int position) {

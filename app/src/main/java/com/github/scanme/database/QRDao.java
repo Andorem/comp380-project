@@ -32,7 +32,7 @@ interface QRDao {
     LiveData<List<QR>> getAllTo(String to);
 
     @Query("SELECT * FROM qr WHERE id LIKE :id LIMIT 1")
-    QR getByID(String id);
+    LiveData<QR> getByID(String id);
 
     @Insert
     void insert(QR... qrs);
