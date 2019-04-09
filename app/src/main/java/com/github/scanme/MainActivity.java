@@ -1,16 +1,14 @@
 package com.github.scanme;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
 import java.util.ArrayList;
-import com.github.scanme.QREntry;
-import com.github.scanme.EntriesListAdapter;
 
 /*
 import android.widget.Toast;
@@ -38,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        FloatingActionButton scanButton = findViewById(R.id.scanButton);
+        scanButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                openQRScanActivity();
+            }
+        });
+
         entriesList = findViewById(R.id.entriesList);
         entriesAdapter = new EntriesListAdapter(this, entriesData);
         entriesList.setAdapter(entriesAdapter);
@@ -61,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
     //This is the intent used for create button(main activity) ---> createEntryActivity.java
     public void openCreateEntryActivity(){
         Intent intent  = new Intent(this, CreateEntryActivity.class);
+        startActivity(intent);
+    }
+
+    public void openQRScanActivity(){
+        Intent intent = new Intent(this, QRScan.class);
         startActivity(intent);
     }
 }
