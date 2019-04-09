@@ -43,9 +43,20 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="@color/lightOrange"
-        android:onClick="sendTo"
         android:clickable="true"
         app:srcCompat="@android:drawable/ic_input_add"
+        android:tint="@android:color/white"
+        app:maxImageSize="35dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/scanButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@color/lightYellow"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_menu_gallery"
         android:tint="@android:color/white"
         app:maxImageSize="35dp"/>
 

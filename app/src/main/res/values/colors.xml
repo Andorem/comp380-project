@@ -11,4 +11,6 @@
     <color name="brightGreen">#25E574</color>
     <color name="lightGray">#D7D7D7</color>
     <color name="darkGray">#3E3F3F</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
 </resources>
