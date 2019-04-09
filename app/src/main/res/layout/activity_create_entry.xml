@@ -38,7 +38,7 @@
                     android:scaleType="fitXY"
                     android:visibility="gone"/>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                <android.support.design.widget.FloatingActionButton
                     android:id="@+id/cameraButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                 android:background="#FFFFFF"
                 android:paddingBottom="60dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -147,7 +147,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/editDescription"
                         app:layout_constraintVertical_bias="0.0">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
+                        <android.support.constraint.ConstraintLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
@@ -220,15 +220,15 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 android:clickable="true"/>
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        </android.support.constraint.ConstraintLayout>
                     </HorizontalScrollView>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

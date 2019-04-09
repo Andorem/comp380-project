@@ -1,9 +1,13 @@
 package com.github.scanme;
 //https://blog.csdn.net/yuzhiqiang_1993/article/details/78292004
+import android.Manifest;
 import android.content.Intent;
-
-import androidx.fragment.app.Fragment;
-
+import android.content.pm.PackageManager;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +17,8 @@ import android.widget.TextView;
 
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
+
+import static com.github.scanme.CreateEntryActivity.PERMREQ_CAMERA;
 
 //click the scan button, take it into the system camera
 //scan the QR
