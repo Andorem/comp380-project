@@ -7,6 +7,9 @@ import android.provider.MediaStore;
 import android.os.Bundle;
 import android.view.View;
 
+import com.github.scanme.database.QR;
+import com.github.scanme.database.QRRepository;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -37,5 +40,16 @@ public class QRScan extends AppCompatActivity {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
+    }
+
+    public void openViewEntryActivity(String id) {
+        // Grab QR from database
+        QRRepository qrRepo = new QRRepository(getApplication());
+        QR qr = qrRepo.getQR(id).getValue();
+
+        // Pass QR to its entry screen
+        Intent intent = new Intent(this, ViewEntryActivity.class);
+        intent.putExtra("QR", qr);
+        startActivity(intent);
     }
 }

@@ -5,14 +5,19 @@ import android.content.Intent;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.github.scanme.entrylist.EntryListAdapter;
+import com.github.scanme.entrylist.SwipeToDeleteCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,10 +30,10 @@ import com.github.scanme.database.QRRepository;
 public class MainActivity extends AppCompatActivity {
 
     List<QR> entriesData;
-    EntriesListAdapter entriesAdapter;
-    ListView entriesList;
+    EntryListAdapter entriesAdapter;
+    RecyclerView entriesList;
 
-    boolean PRINT_MODE = false;
+    boolean EDIT_MODE = false;
     List<QR> selectedQRs = new ArrayList<>();
 
     private QRRepository qrRepo;
@@ -51,23 +56,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       /*
-        FloatingActionButton scanButton = findViewById(R.id.scanButton);
-        scanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                openQRScanActivity();
-            }
-        });
-        */
-
-
         // Populate list with custom layouts (adapter) for each entry (image, title, description, etc...)
        entriesData = new ArrayList<>();
        entriesList = findViewById(R.id.entriesList);
-       entriesList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-       entriesAdapter = new EntriesListAdapter(this, entriesData);
+       entriesAdapter = new EntryListAdapter(this, entriesData);
        entriesList.setAdapter(entriesAdapter);
+
+       // Handle RecyclerView operations
+       entriesList.setLayoutManager(new LinearLayoutManager(this));
+       ItemTouchHelper swipeHelper = new ItemTouchHelper(new SwipeToDeleteCallback(entriesAdapter));
+       swipeHelper.attachToRecyclerView(entriesList);
 
         // Update the cached copy of the entries in the adapter
         qrRepo = new QRRepository(getApplication());
@@ -102,19 +100,23 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);   */
     }
 
+    /* Main Toolbar Menu */
+
+    // Inflate the toolbar with the custom menu layout and retrieve icons
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    // Determine what to do when a menu icon is clicked
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.printButton:
-                if (PRINT_MODE) openQRPrintActivity((ArrayList<QR>) entriesAdapter.getSelectedQRs());
-                item.setIcon(PRINT_MODE ? R.drawable.ic_print : R.drawable.ic_checkmark);
-                togglePrintMode();
+                if (EDIT_MODE) openQRPrintActivity((ArrayList<QR>) entriesAdapter.getSelectedQRs());
+                item.setIcon(EDIT_MODE ? R.drawable.ic_print : R.drawable.ic_checkmark);
+                toggleEditMode();
                 break;
             case R.id.scanButton:
                 // openQRScanActivity();
@@ -124,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void togglePrintMode() {
-        PRINT_MODE = !PRINT_MODE;
+    private void toggleEditMode() {
+        EDIT_MODE = !EDIT_MODE;
         entriesAdapter.toggleSelectMode();
     }
 

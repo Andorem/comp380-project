@@ -36,6 +36,10 @@ public class QRRepository {
         new insertAsync(qrDao).execute(qr);
     }
 
+    public void delete(QR qr) {
+        new deleteAsync(qrDao).execute(qr);
+    }
+
     /*PRIVATE ASYNC TASKS*/
 
     // The Room database requires any data insertion to be in a separate thread (async)
@@ -50,6 +54,20 @@ public class QRRepository {
         @Override
         protected Void doInBackground(final QR... params) {
             asyncDao.insert(params[0]);
+            return null;
+        }
+    }
+
+    private class deleteAsync extends AsyncTask<QR, Void, Void> {
+        private QRDao asyncDao;
+
+        deleteAsync(QRDao nonAsyncDao) {
+            asyncDao = nonAsyncDao;
+        }
+
+        @Override
+        protected Void doInBackground(final QR... params) {
+            asyncDao.delete(params[0]);
             return null;
         }
     }
