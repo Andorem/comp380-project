@@ -25,10 +25,12 @@ public class ViewEntryActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ID = getIntent().getStringExtra("ID");
+        //ID = getIntent().getStringExtra("ID");
+        qr = getIntent().getParcelableExtra("QR");
+        ID = qr.getId();
         Log.d("VIEW_ENTRY", "ID retrieved: " + ID);
-        qrRepo = new QRRepository(getApplication());
-        qr = qrRepo.getQR(ID).getValue();
+        //qrRepo = new QRRepository(getApplication());
+        //qr = qrRepo.getQR(ID).getValue();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
