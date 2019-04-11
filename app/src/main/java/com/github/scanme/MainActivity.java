@@ -9,10 +9,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,6 @@ import java.util.List;
 import com.github.scanme.database.QR;
 import com.github.scanme.database.QRRepository;
 
-/*
-import android.widget.Toast;
-import android.widget.Button;
-*/
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +28,11 @@ public class MainActivity extends AppCompatActivity {
     EntriesListAdapter entriesAdapter;
     ListView entriesList;
 
+    boolean PRINT_MODE = false;
+    List<QR> selectedQRs = new ArrayList<>();
+
     private QRRepository qrRepo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+       /*
         FloatingActionButton scanButton = findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,11 +59,13 @@ public class MainActivity extends AppCompatActivity {
                 openQRScanActivity();
             }
         });
+        */
 
 
         // Populate list with custom layouts (adapter) for each entry (image, title, description, etc...)
        entriesData = new ArrayList<>();
        entriesList = findViewById(R.id.entriesList);
+       entriesList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
        entriesAdapter = new EntriesListAdapter(this, entriesData);
        entriesList.setAdapter(entriesAdapter);
 
@@ -73,14 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 entriesAdapter.updateEntries(QRs);
             }
         });
-
-        entriesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("MAIN", "List row clicked for ID: " + entriesAdapter.getItem(position).getId());
-                openViewEntryActivity(entriesAdapter.getItem(position).getId());
-            }
-        });
     }
 
     // This is the intent used for create button(main activity) ---> createEntryActivity.java
@@ -89,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openViewEntryActivity(String id){
+    public void openViewEntryActivity(QR qr){
         Intent intent  = new Intent(this, ViewEntryActivity.class);
-        intent.putExtra("ID", id);
+        intent.putExtra("QR", qr);
         startActivity(intent);
     }
 
@@ -99,4 +95,38 @@ public class MainActivity extends AppCompatActivity {
         Intent intent  = new Intent(this, QRScan.class);
         startActivity(intent);
     }
+
+    public void openQRPrintActivity(ArrayList<QR> selectedQRs){
+     /* Intent intent  = new Intent(this, QRPrint.class);
+        intent.putExtra("QRs", selectedQRs);
+        startActivity(intent);   */
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.printButton:
+                if (PRINT_MODE) openQRPrintActivity((ArrayList<QR>) entriesAdapter.getSelectedQRs());
+                item.setIcon(PRINT_MODE ? R.drawable.ic_print : R.drawable.ic_checkmark);
+                togglePrintMode();
+                break;
+            case R.id.scanButton:
+                // openQRScanActivity();
+                Toast.makeText(this, "Scan clicked!", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void togglePrintMode() {
+        PRINT_MODE = !PRINT_MODE;
+        entriesAdapter.toggleSelectMode();
+    }
+
 }

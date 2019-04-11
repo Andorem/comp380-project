@@ -16,7 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -30,9 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/lightGray"
-            android:clickable="true"
-            android:footerDividersEnabled="false"
-            android:dividerHeight=".5dp" />
+            android:dividerHeight=".5dp"
+            android:footerDividersEnabled="false" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -42,22 +43,22 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/lightOrange"
         android:clickable="true"
-        app:srcCompat="@android:drawable/ic_input_add"
         android:tint="@android:color/white"
-        app:maxImageSize="35dp"/>
+        app:backgroundTint="@color/lightOrange"
+        app:maxImageSize="35dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/scanButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/lightYellow"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_menu_gallery"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="16dp"
         android:tint="@android:color/white"
-        app:maxImageSize="35dp"/>
+        app:backgroundTint="@color/lightYellow"
+        app:maxImageSize="35dp"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

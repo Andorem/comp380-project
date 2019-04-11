@@ -13,13 +13,16 @@
 package com.github.scanme.database;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class QR {
+public class QR implements Parcelable {
 
     /* Table Columns */
     @PrimaryKey
@@ -99,5 +102,43 @@ public class QR {
     }
     public void setQrPath(String qrPath) {
         this.qrPath = qrPath;
+    }
+
+    /* The below methods allow QR to be parcelable, i.e. able to pass to activity with intents */
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // Create a Parcel containing all of QR's values
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        String[] vals = {ID, title, description, fromLoc, toLoc, imagePath, qrPath};
+        for (int i = 0; i < vals.length; i++) {
+            out.writeString(vals[i]);
+        }
+    }
+
+    // Required CREATOR in order to parcelize/regenerate the object
+    public static final Parcelable.Creator<QR> CREATOR = new Parcelable.Creator<QR>() {
+        public QR createFromParcel(Parcel in) {
+            return new QR(in);
+        }
+
+        public QR[] newArray(int size) {
+            return new QR[size];
+        }
+    };
+
+    // Convert Parcel to object (must read in order written in)
+    private QR(Parcel in) {
+        ID = in.readString();
+        title = in.readString();
+        description = in.readString();
+        fromLoc = in.readString();
+        toLoc = in.readString();
+        imagePath = in.readString();
+        qrPath = in.readString();
     }
 }
