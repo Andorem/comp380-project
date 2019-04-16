@@ -1,5 +1,7 @@
 package com.github.scanme;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import android.content.Intent;
 import androidx.annotation.Nullable;
@@ -26,8 +28,15 @@ import java.util.List;
 import com.github.scanme.database.QR;
 import com.github.scanme.database.QRRepository;
 
+//ysi,0416
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.widget.Button;
+import android.widget.TextView;
+import com.yzq.zxinglibrary.android.CaptureActivity;
+import com.yzq.zxinglibrary.common.Constant;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     List<QR> entriesData;
     EntryListAdapter entriesAdapter;
@@ -37,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
     List<QR> selectedQRs = new ArrayList<>();
 
     private QRRepository qrRepo;
+    //ysi,0416
+    private Button scanBtn;
+    private TextView result;
+    private Toolbar toolbar;
+    private final int REQUEST_CODE_SCAN = 111;
 
 
     @Override
@@ -75,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                 entriesAdapter.updateEntries(QRs);
             }
         });
+
+        //ysi,0416
+        initView();
     }
 
     // This is the intent used for create button(main activity) ---> createEntryActivity.java
@@ -131,4 +148,65 @@ public class MainActivity extends AppCompatActivity {
         entriesAdapter.toggleSelectMode();
     }
 
+    //ysi,0416
+    private void initView() {
+        /*scan button*/
+        scanBtn = findViewById(R.id.scanButton);
+        scanBtn.setOnClickListener(this);
+        /*scan result*/
+        result = findViewById(R.id.resultTv);
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("scan");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    public void doScan(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_SCAN);
+        }
+        else{
+            //permission already been granted
+            Intent intent = new Intent(this, CaptureActivity.class);
+            if(intent.resolveActivity(getPackageManager()) != null){
+                startActivityForResult(intent, REQUEST_CODE_SCAN);
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        doScan();
+    }
+
+    @Override
+    //new add by Alexis
+    public  void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults){
+        switch(requestCode){
+            case REQUEST_CODE_SCAN: {
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    //granted
+                    doScan();
+                }
+                else{
+                    //denied, do nothing
+                }
+                return;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // 扫描二维码/条码回传scan qr/ return code
+        if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+            if (data != null) {
+
+                String content = data.getStringExtra(Constant.CODED_CONTENT);
+                result.setText("result of scan" + content);
+            }
+        }
+    }
 }
