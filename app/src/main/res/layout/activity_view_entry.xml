@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ViewEntryActivity">
 
+
+    <!--EDIT PRINT DELETE Should be implemented inside the hamburger toolbar-->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,14 +22,47 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
     <include layout="@layout/content_view_entry" />
 
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <ImageView
+                android:id="@+id/entryPicture"
+                android:layout_width="fill_parent"
+                android:layout_height="348dp"
+                android:padding="3dp"
+                android:scaleType="centerInside"
+                app:layout_constraintStart_toBottomOf="@+id/toolbar"/>
+
+            <TextView
+                android:id="@+id/titleLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/entryPicture"
+                app:layout_constraintTop_toBottomOf="@+id/descriptionLabel" />
+
+            <TextView
+                android:id="@+id/descriptionLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+        </LinearLayout>
+    </ScrollView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/entryQR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -11,11 +11,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 public class ViewEntryActivity extends AppCompatActivity {
 
     String ID;
     QR qr;
+    ImageView entryPicture;
     QRRepository qrRepo = new QRRepository(getApplication());
 
     @Override
@@ -25,14 +27,18 @@ public class ViewEntryActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getImage(qr.getImagePath());
         //ID = getIntent().getStringExtra("ID");
         qr = getIntent().getParcelableExtra("QR");
         ID = qr.getId();
+        entryPicture = findViewById(R.id.entryPicture);
+
+
         Log.d("VIEW_ENTRY", "ID retrieved: " + ID);
         //qrRepo = new QRRepository(getApplication());
         //qr = qrRepo.getQR(ID).getValue();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.entryQR);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,6 +46,12 @@ public class ViewEntryActivity extends AppCompatActivity {
                         .show();
             }
         });
+    }
+
+
+
+    protected void getImage( String filePath){
+        entryPicture.setImageBitmap(BitmapHandler.rotateImage(this, filePath));
     }
 
 }
