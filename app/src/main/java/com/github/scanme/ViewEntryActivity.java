@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import com.github.scanme.database.QR;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import com.github.scanme.database.QRRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -15,8 +17,9 @@ import android.widget.TextView;
 
 public class ViewEntryActivity extends AppCompatActivity {
 
-   // String ID;
+    String ID;
     QR qr;
+
     //ImageView pictureOutput = new ImageView(getApplicationContext()); TEST
     ImageView pictureOutput;
     TextView titleOutput;
@@ -28,13 +31,16 @@ public class ViewEntryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_entry);
+        pictureOutput = findViewById(R.id.entryPicture);
+        titleOutput = findViewById(R.id.titleView);
+        descriptionOutput = findViewById(R.id.descriptionView);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-    //    ID = getIntent().getStringExtra("ID");
+        ID = getIntent().getStringExtra("ID");
         qr = getIntent().getParcelableExtra("QR");
-     //   ID = qr.getId();
+        ID = qr.getId();
 
 
 
@@ -46,15 +52,15 @@ public class ViewEntryActivity extends AppCompatActivity {
 
         // get image
         getImage(qr.getImagePath());
-        pictureOutput = (ImageView) findViewById(R.id.entryPicture);
+       // pictureOutput = findViewById(R.id.entryPicture);
 
 
         //setter
         titleOutput.setText(qr.getTitle());
-        titleOutput = findViewById(R.id.titleView);
+        //titleOutput = findViewById(R.id.titleView);
 
         descriptionOutput.setText(qr.getDescription());
-        descriptionOutput = findViewById(R.id.descriptionView);
+        //descriptionOutput = findViewById(R.id.descriptionView);
 
 /*
         Log.d("VIEW_ENTRY", "ID retrieved: " + ID);
