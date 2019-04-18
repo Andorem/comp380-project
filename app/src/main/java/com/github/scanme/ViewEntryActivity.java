@@ -1,5 +1,6 @@
 package com.github.scanme;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.github.scanme.database.QR;
@@ -8,27 +9,24 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import org.w3c.dom.Text;
 
 public class ViewEntryActivity extends AppCompatActivity {
 
     String ID;
     QR qr;
-    ImageView entryPicture;
+    //ImageView pictureOutput = new ImageView(getApplicationContext()); TEST
+    ImageView pictureOutput;
     TextView titleOutput;
     TextView descriptionOutput;
     QRRepository qrRepo = new QRRepository(getApplication());
 
-
-
-
+    //onCreate method starts
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +34,22 @@ public class ViewEntryActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getImage(qr.getImagePath());
-        //ID = getIntent().getStringExtra("ID");
+
+        ID = getIntent().getStringExtra("ID");
         qr = getIntent().getParcelableExtra("QR");
         ID = qr.getId();
-        entryPicture = findViewById(R.id.entryPicture);
+
+
+
+        /*
+        //TEST TEST TEST TEST
+        Bitmap bitmap = (Bitmap)this.getIntent().getParcelableExtra("Bitmap");
+        ImageView pictureOutput = (ImageView) findViewById(R.id.entryPicture);
+        */
+
+        // get image
+        getImage(qr.getImagePath());
+        pictureOutput = findViewById(R.id.entryPicture);
 
         //setter
         titleOutput.setText(qr.getTitle());
@@ -51,8 +60,9 @@ public class ViewEntryActivity extends AppCompatActivity {
 
 
         Log.d("VIEW_ENTRY", "ID retrieved: " + ID);
-        //qrRepo = new QRRepository(getApplication());
-        //qr = qrRepo.getQR(ID).getValue();
+        qrRepo = new QRRepository(getApplication());
+        qr = qrRepo.getQR(ID).getValue();
+
 
         FloatingActionButton fab = findViewById(R.id.entryQR);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -62,14 +72,11 @@ public class ViewEntryActivity extends AppCompatActivity {
                         .show();
             }
         });
-    }
-    // end of oncreate method
+    } // end of on create method
 
 
+    //gets image w. bitmap
     protected void getImage(String filePath){
-        entryPicture.setImageBitmap(BitmapHandler.rotateImage(this, filePath));
+        pictureOutput.setImageBitmap(BitmapHandler.rotateImage(this, filePath));
     }
-
-
-
-}
+}// end class

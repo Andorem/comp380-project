@@ -46,7 +46,7 @@
                 android:padding="3dp"
                 android:scaleType="centerInside"
                 app:layout_constraintStart_toStartOf="@+id/titleLabel"
-                app:layout_constraintStart_toBottomOf="@+id/toolbar"/>
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
             <TextView
                 android:id="@+id/titleLabel"

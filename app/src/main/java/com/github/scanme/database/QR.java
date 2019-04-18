@@ -15,6 +15,7 @@ package com.github.scanme.database;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
