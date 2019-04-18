@@ -1,4 +1,9 @@
 package com.github.scanme;
+
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -9,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.yzq.zxinglibrary.android.CaptureActivity;
+
 
 public class scan extends Fragment implements View.OnClickListener {
     private View view;
