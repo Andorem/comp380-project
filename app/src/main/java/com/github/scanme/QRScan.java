@@ -15,7 +15,7 @@ public class QRScan extends Fragment implements View.OnClickListener {
 //public class QRScan extends AppCompatActivity implements View.OnClickListener {
     private View view;
     private Button scanButton;
-    private TextView resultTv;
+   // private TextView resultTv;
     public QRScan() { }
 
     @Override
@@ -29,7 +29,7 @@ public class QRScan extends Fragment implements View.OnClickListener {
 
     private void initView() {
         scanButton = view.findViewById(R.id.scanButton);
-        resultTv = view.findViewById(R.id.resultTv);
+       // resultTv = view.findViewById(R.id.resultTv);
         scanButton.setOnClickListener(this);
     }
 

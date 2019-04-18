@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 toggleEditMode();
                 break;
             case R.id.scanButton:
-                // openQRScanActivity();
+                openQRScanActivity();
                 Toast.makeText(this, "Scan clicked!", Toast.LENGTH_SHORT).show();
                 break;
         }
