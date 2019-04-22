@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import com.github.scanme.database.QR;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import com.github.scanme.database.QRRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.util.Log;
+
 import android.widget.TextView;
 
 
@@ -24,7 +22,7 @@ public class ViewEntryActivity extends AppCompatActivity {
     ImageView pictureOutput;
     TextView titleOutput;
     TextView descriptionOutput;
-    QRRepository qrRepo = new QRRepository(getApplication());
+    // QRRepository qrRepo = new QRRepository(getApplication());
 
     //onCreate method starts
     @Override
@@ -35,13 +33,14 @@ public class ViewEntryActivity extends AppCompatActivity {
         titleOutput = findViewById(R.id.titleView);
         descriptionOutput = findViewById(R.id.descriptionView);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
 
-        ID = getIntent().getStringExtra("ID");
+        // ID = getIntent().getStringExtra("ID");
         qr = getIntent().getParcelableExtra("QR");
-        ID = qr.getId();
+        ID = qr.getID();
 
+        toolbar.setTitle(qr.getTitle());
+        setSupportActionBar(toolbar);
 
 
         /*
@@ -65,17 +64,17 @@ public class ViewEntryActivity extends AppCompatActivity {
 /*
         Log.d("VIEW_ENTRY", "ID retrieved: " + ID);
         qrRepo = new QRRepository(getApplication());
-        qr = qrRepo.getQR(ID).getValue();
+        qr = qrRepo.getQR(ID).getValue();*/
 
 
         FloatingActionButton fab = findViewById(R.id.entryQR);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "ID: " + ID, Snackbar.LENGTH_LONG)
-                        .show();
+                QRPopup qrPopup = new QRPopup();
+                qrPopup.show(getSupportFragmentManager(), "QR Popup");
             }
-        });*/
+        });
     } // end of on create method
 
 

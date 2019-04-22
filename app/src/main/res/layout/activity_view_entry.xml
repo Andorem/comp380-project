@@ -31,22 +31,32 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:layout_marginTop="?attr/actionBarSize">
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <ImageView
-                android:id="@+id/entryPicture"
+            <RelativeLayout
+                android:id="@+id/imageBackground"
                 android:layout_width="fill_parent"
-                android:layout_height="348dp"
-                android:padding="3dp"
-                android:scaleType="centerInside"
-                app:layout_constraintStart_toStartOf="@+id/titleLabel"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:minHeight="175dp"
+                android:background="#00BFA5"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/entryPicture"
+                    android:layout_width="fill_parent"
+                    android:layout_height="175dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"/>
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/titleLabel"
@@ -60,7 +70,7 @@
                 android:text="Title"
                 android:textAlignment="viewStart"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="20sp"
+                android:textSize="21sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/titleView"
                 app:layout_constraintTop_toBottomOf="@+id/entryPicture" />
@@ -77,11 +87,11 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:ems="10"
                 android:inputType="textShortMessage|textPersonName"
-                android:padding="12dp"
-                android:textSize="23sp"
+                android:padding="4dp"
                 android:text="INSERT TITLE HERE"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/descriptionLabel"
-                app:layout_constraintTop_toBottomOf="@+id/titleLabel"/>
+                app:layout_constraintTop_toBottomOf="@+id/titleLabel" />
 
             <TextView
                 android:id="@+id/descriptionLabel"
@@ -95,10 +105,10 @@
                 android:text="Description"
                 android:textAlignment="viewStart"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="20sp"
+                android:textSize="21sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/descriptionView"
-                app:layout_constraintTop_toBottomOf="@+id/titleView"/>
+                app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
             <TextView
                 android:id="@+id/descriptionView"
@@ -109,17 +119,21 @@
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/colorPrimary"
                 android:ems="10"
+                android:textSize="20sp"
                 android:gravity="top"
+                android:padding="4dp"
                 android:inputType="textMultiLine"
                 android:text="Insert Description Here"
-                app:layout_constraintTop_toBottomOf="@+id/descriptionLabel"/>
+                app:layout_constraintTop_toBottomOf="@+id/descriptionLabel" />
         </LinearLayout>
     </ScrollView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/entryQR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:src="@drawable/ic_qr"
+        android:tint="@color/white"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
