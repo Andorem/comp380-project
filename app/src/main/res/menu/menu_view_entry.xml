@@ -7,6 +7,6 @@
         android:title="@string/edit"/>
     <item android:title="@string/delete"
         android:id="@+id/Delete"/>
-    <item android:title="@string/last"
-        android:id="@+id/Last"/>
+    <item android:title="@string/print"
+        android:id="@+id/Print"/>
 </menu>

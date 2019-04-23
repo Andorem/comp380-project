@@ -96,8 +96,8 @@ public class ViewEntryActivity extends AppCompatActivity {
             case R.id.Delete:
                 Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.Last:
-                Toast.makeText(this, "Last", Toast.LENGTH_SHORT).show();
+            case R.id.Print:
+                Toast.makeText(this, "Print", Toast.LENGTH_SHORT).show();
                 break;
         }
         //return true;
