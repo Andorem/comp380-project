@@ -6,7 +6,8 @@
     android:layout_height="fill_parent"
     android:padding="10dp"
     android:orientation="vertical"
-    tools:context=".QRPopup">
+    tools:context=".QRPopup"
+    android:id="@+id/wrapper">
 
     <ImageView
         android:id="@+id/qrImage"

@@ -34,6 +34,9 @@ interface QRDao {
     @Query("SELECT * FROM qr WHERE id LIKE :id LIMIT 1")
     LiveData<QR> getByID(String id);
 
+    @Query("SELECT * FROM qr WHERE (title LIKE :search OR description LIKE :search OR toLoc LIKE :search OR fromLoc LIKE :search)")
+    LiveData<List<QR>> getQRs(String search);
+
     @Insert
     void insert(QR... qrs);
 
