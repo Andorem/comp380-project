@@ -53,7 +53,7 @@ public class ViewEntryActivity extends AppCompatActivity {
 
         // get image
         getImage(qr.getImagePath());
-       // pictureOutput = findViewById(R.id.entryPicture);
+        // pictureOutput = findViewById(R.id.entryPicture);
 
         //setter
         titleOutput.setText(qr.getTitle());
