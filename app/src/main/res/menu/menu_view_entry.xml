@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.github.scanme.view_entry">
 
-    <item android:id="@+id/Edit"
+    <item android:id="@+id/editTitle"
         android:title="@string/edit"/>
+    <item android:title="@string/editTwo"
+        android:id="@+id/editDescription"/>
     <item android:title="@string/delete"
         android:id="@+id/Delete"/>
     <item android:title="@string/print"

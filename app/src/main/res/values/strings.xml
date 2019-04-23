@@ -4,6 +4,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_view_entry">view_entry</string>
     <string name="delete">Delete</string>
-    <string name="edit">Edit</string>
+    <string name="edit">Edit Title</string>
     <string name="print">Print</string>
+    <string name="editTwo">Edit Description</string>
 </resources>

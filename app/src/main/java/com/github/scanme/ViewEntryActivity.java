@@ -1,14 +1,18 @@
 package com.github.scanme;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import com.github.scanme.database.QR;
 import com.github.scanme.database.QRRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -17,15 +21,23 @@ import android.widget.Toast;
 
 
 public class ViewEntryActivity extends AppCompatActivity {
-
+    AlertDialog dialog;
     String ID;
     QR qr;
+    boolean editMode = false;
 
     //ImageView pictureOutput = new ImageView(getApplicationContext()); TEST
     ImageView pictureOutput;
     TextView titleOutput;
+    EditText titleEdit;
     TextView descriptionOutput;
+    EditText descriptionEdit;
     // QRRepository qrRepo = new QRRepository(getApplication());
+     TextView editLabel;
+     Button button;
+     int option = 0;
+
+
 
     //onCreate method starts
     @Override
@@ -36,6 +48,11 @@ public class ViewEntryActivity extends AppCompatActivity {
         titleOutput = findViewById(R.id.titleView);
         descriptionOutput = findViewById(R.id.descriptionView);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        dialog = new AlertDialog.Builder(this).create();
+        //dialogTwo = new AlertDialog.Builder(this).create();
+        titleEdit = new EditText(this);
+        descriptionEdit = new EditText(this);
+
 
 
         // ID = getIntent().getStringExtra("ID");
@@ -89,9 +106,34 @@ public class ViewEntryActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+        dialog = new AlertDialog.Builder(this).create();
+        dialog.setTitle("Edit");
         switch(item.getItemId()){
-            case R.id.Edit:
-                Toast.makeText(this, "Edit", Toast.LENGTH_SHORT).show();
+            case R.id.editTitle:
+                Toast.makeText(this, "editTitle", Toast.LENGTH_SHORT).show();
+                dialog.setView(titleEdit);
+                //edit and set new title
+                titleEdit.setText(titleOutput.getText());
+                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "SAVE EDIT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        titleOutput.setText(titleEdit.getText());
+                    }
+                });
+                dialog.show();
+                break;
+            case R.id.editDescription:
+                Toast.makeText(this, "editDescription", Toast.LENGTH_SHORT).show();
+                    dialog.setView(descriptionEdit);
+                    //edit and set new description
+                    descriptionEdit.setText(descriptionOutput.getText());
+                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "SAVE EDIT", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            descriptionOutput.setText(descriptionEdit.getText());
+                        }
+                    });
+                dialog.show();
                 break;
             case R.id.Delete:
                 Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show();
