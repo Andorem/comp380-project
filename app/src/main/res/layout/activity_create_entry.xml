@@ -156,7 +156,7 @@
                         android:layout_height="wrap_content">
 
                         <Button
-                            android:id="@+id/tag1"
+                            android:id="@+id/bedroom"
                             android:layout_width="70dp"
                             android:layout_height="38dp"
                             android:layout_marginStart="8dp"
@@ -169,7 +169,7 @@
                             android:clickable="true" />
 
                         <Button
-                            android:id="@+id/tag3"
+                            android:id="@+id/restroom"
                             android:layout_width="70dp"
                             android:layout_height="38dp"
                             android:layout_marginStart="8dp"
@@ -178,13 +178,13 @@
                             android:text="restroom"
                             android:textColor="@android:color/white"
                             android:textSize="12dp"
-                            app:layout_constraintEnd_toStartOf="@+id/tag5"
-                            app:layout_constraintStart_toEndOf="@+id/tag1"
+                            app:layout_constraintEnd_toStartOf="@+id/kitchen"
+                            app:layout_constraintStart_toEndOf="@+id/bedroom"
                             app:layout_constraintTop_toTopOf="parent"
                             android:clickable="true"/>
 
                         <Button
-                            android:id="@+id/tag4"
+                            android:id="@+id/backyard"
                             android:layout_width="70dp"
                             android:layout_height="38dp"
                             android:layout_marginStart="8dp"
@@ -193,27 +193,27 @@
                             android:text="backyard"
                             android:textColor="@android:color/white"
                             android:textSize="12dp"
-                            app:layout_constraintEnd_toStartOf="@+id/tag6"
-                            app:layout_constraintStart_toEndOf="@+id/tag5"
+                            app:layout_constraintEnd_toStartOf="@+id/others"
+                            app:layout_constraintStart_toEndOf="@+id/kitchen"
                             app:layout_constraintTop_toTopOf="parent"
                             android:clickable="true"/>
 
                         <Button
-                            android:id="@+id/tag5"
+                            android:id="@+id/kitchen"
                             android:layout_width="70dp"
                             android:layout_height="38dp"
                             android:background="@color/lightYellow"
                             android:text="kitchen"
                             android:textColor="@android:color/white"
                             android:textSize="12dp"
-                            app:layout_constraintEnd_toStartOf="@+id/tag4"
+                            app:layout_constraintEnd_toStartOf="@+id/backyard"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/tag3"
+                            app:layout_constraintStart_toEndOf="@+id/restroom"
                             app:layout_constraintTop_toTopOf="parent"
                             android:clickable="true"/>
 
                         <Button
-                            android:id="@+id/tag6"
+                            android:id="@+id/others"
                             android:layout_width="70dp"
                             android:layout_height="38dp"
                             android:layout_marginEnd="8dp"
