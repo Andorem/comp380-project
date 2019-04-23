@@ -1,6 +1,7 @@
 package com.github.scanme;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -80,7 +81,7 @@ public class QRPopup extends DialogFragment {
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                printQR();
+                printQR(getContext(), qr);
             }
         });
 
@@ -97,10 +98,10 @@ public class QRPopup extends DialogFragment {
         startActivity(Intent.createChooser(shareIntent, "Share QR Code"));
     }
 
-    public void printQR() {
-        PrintHelper photoPrinter = new PrintHelper(getContext());
+    public static void printQR(Context context, QR qr) {
+        PrintHelper photoPrinter = new PrintHelper(context);
         photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FIT);
-        photoPrinter.printBitmap(qr.getTitle(), QRPrint.SINGLE.createBitmap(qr, getContext()));
+        photoPrinter.printBitmap(qr.getTitle(), QRPrint.SINGLE.createBitmap(qr, context));
     }
 
 }
