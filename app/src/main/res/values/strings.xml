@@ -3,4 +3,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_view_entry">view_entry</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="last">Last</string>
 </resources>

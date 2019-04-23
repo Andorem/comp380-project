@@ -2,9 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.github.scanme.view_entry">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+
+    <item android:id="@+id/Edit"
+        android:title="@string/edit"/>
+    <item android:title="@string/delete"
+        android:id="@+id/Delete"/>
+    <item android:title="@string/last"
+        android:id="@+id/Last"/>
 </menu>

@@ -1,6 +1,8 @@
 package com.github.scanme;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import com.github.scanme.database.QR;
@@ -11,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class ViewEntryActivity extends AppCompatActivity {
@@ -76,6 +79,39 @@ public class ViewEntryActivity extends AppCompatActivity {
             }
         });
     } // end of on create method
+    //toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_view_entry, menu);
+        return super.onCreateOptionsMenu(menu);
+        //return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.Edit:
+                Toast.makeText(this, "Edit", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.Delete:
+                Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.Last:
+                Toast.makeText(this, "Last", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        //return true;
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+
+
+
+
+
 
 
 
