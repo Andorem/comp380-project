@@ -77,6 +77,9 @@ public class ViewEntryActivity extends AppCompatActivity {
        // pictureOutput = findViewById(R.id.entryPicture);
 
 
+        //image stretch
+        //pictureOutput.setScaleType(ImageView.ScaleType.FIT_XY);
+
         //setter
         titleOutput.setText(qr.getTitle());
         //titleOutput = findViewById(R.id.titleView);
@@ -113,7 +116,7 @@ public class ViewEntryActivity extends AppCompatActivity {
         dialog.setTitle("Edit");
         switch(item.getItemId()){
             case R.id.editTitle:
-                Toast.makeText(this, "editTitle", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "editTitle", Toast.LENGTH_SHORT).show();
                 dialog.setView(titleEdit);
                 //edit and set new title
                 titleEdit.setText(titleOutput.getText());
@@ -126,7 +129,7 @@ public class ViewEntryActivity extends AppCompatActivity {
                 dialog.show();
                 break;
             case R.id.editDescription:
-                Toast.makeText(this, "editDescription", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "editDescription", Toast.LENGTH_SHORT).show();
                     dialog.setView(descriptionEdit);
                     //edit and set new description
                     descriptionEdit.setText(descriptionOutput.getText());
@@ -139,27 +142,15 @@ public class ViewEntryActivity extends AppCompatActivity {
                 dialog.show();
                 break;
             case R.id.Delete:
-                Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.Print:
-                Toast.makeText(this, "Print", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "Print", Toast.LENGTH_SHORT).show();
                 break;
         }
         //return true;
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     //gets image w. bitmap
     protected void getImage(String filePath){
