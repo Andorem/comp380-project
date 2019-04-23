@@ -14,4 +14,10 @@
         android:title="Scan"
         app:showAsAction="always|withText" />
 
+    <item android:id="@+id/searchButton"
+        android:title="Search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+
 </menu>

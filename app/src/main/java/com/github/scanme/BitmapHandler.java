@@ -12,8 +12,10 @@ package com.github.scanme;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.media.ExifInterface;
 import android.graphics.Matrix;
+import android.view.View;
 
 import java.io.IOException;
 
@@ -95,5 +97,12 @@ public class BitmapHandler {
         return rotatedImg;
     }
 
+    public static Bitmap createFromView(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getLayoutParams().width, view.getLayoutParams().height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.layout(0, 0, view.getLayoutParams().width, view.getLayoutParams().height);
+        view.draw(canvas);
+        return bitmap;
+    }
 
 }

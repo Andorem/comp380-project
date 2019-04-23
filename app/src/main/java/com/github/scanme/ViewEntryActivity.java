@@ -1,6 +1,7 @@
 package com.github.scanme;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import com.github.scanme.database.QR;
@@ -8,6 +9,7 @@ import com.github.scanme.database.QRRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.widget.TextView;
@@ -51,8 +53,7 @@ public class ViewEntryActivity extends AppCompatActivity {
 
         // get image
         getImage(qr.getImagePath());
-       // pictureOutput = findViewById(R.id.entryPicture);
-
+        // pictureOutput = findViewById(R.id.entryPicture);
 
         //setter
         titleOutput.setText(qr.getTitle());
