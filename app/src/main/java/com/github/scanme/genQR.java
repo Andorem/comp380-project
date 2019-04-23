@@ -17,6 +17,8 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,7 +28,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class genQR extends AppCompatActivity {
+import static android.os.Build.ID;
+
+public class genQR {
 
     //variables
     ImageView imageView;
@@ -108,18 +112,25 @@ public class genQR extends AppCompatActivity {
         }
         Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_8888);
 
-        bitmap.setPixels(pixels, 0, 750, 0, 0, bitMatrixWidth, bitMatrixHeight);
+        bitmap.setPixels(pixels, 0, QRwidth, 0, 0, bitMatrixWidth, bitMatrixHeight);
         return bitmap;
     }
 
     private void saveBitmap(String id) {
-            String filePath = "QR_" + id + ".png";
+            String dirPath = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/QRs";
+            String filePath = "/QR_" + id + ".png";
+
+            File qrDir = new File(dirPath);
+            if(!qrDir.exists()) {
+                qrDir.mkdirs();
+            }
+            File qrFile = new File(qrDir, filePath);
             try {
-                FileOutputStream output = context.openFileOutput(filePath, Context.MODE_PRIVATE);
+                FileOutputStream output = new FileOutputStream(qrFile);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
-                Log.i("GENQR", "QR File path: " + context.getFileStreamPath(filePath));
                 output.close();
 
+                Log.i("GENQR", "QR File path: " + dirPath + filePath);
                 Log.i("GENQR", "QR bitmap successfully saved for ID: " + id);
             }
             catch (FileNotFoundException e) {

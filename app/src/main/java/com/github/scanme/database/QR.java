@@ -15,6 +15,7 @@ package com.github.scanme.database;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -27,14 +28,14 @@ public class QR implements Parcelable {
     /* Table Columns */
     @PrimaryKey
     @NonNull
-    public String ID;
+    private String ID;
 
-    public String title;
-    public String description;
-    public String fromLoc;
-    public String toLoc;
-    public String imagePath;
-    public String qrPath;
+    private String title;
+    private String description;
+    private String fromLoc;
+    private String toLoc;
+    private String imagePath;
+    private String qrPath;
 
     /*
     public QR(String ID, String title, String description, String fromLoc, String toLoc, String imagePath) {
@@ -57,10 +58,10 @@ public class QR implements Parcelable {
 
     /* Getters and Setters */
 
-    public String getId() {
+    public String getID() {
         return ID;
     }
-    public void setId(String id) {
+    public void setID(String id) {
         this.ID = id;
     }
 
@@ -78,17 +79,17 @@ public class QR implements Parcelable {
         this.description = description;
     }
 
-    public String getFrom() {
+    public String getFromLoc() {
         return fromLoc;
     }
-    public void setFrom(String fromLoc) {
+    public void setFromLoc(String fromLoc) {
         this.fromLoc = fromLoc;
     }
 
-    public String getTo() {
+    public String getToLoc() {
         return toLoc;
     }
-    public void setTo(String toLoc) { this.toLoc = toLoc; }
+    public void setToLoc(String toLoc) { this.toLoc = toLoc; }
 
     public String getImagePath() {
         return imagePath;

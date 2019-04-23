@@ -27,7 +27,7 @@ import com.github.scanme.database.QR;
 import com.github.scanme.database.QRRepository;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     List<QR> entriesData;
     EntryListAdapter entriesAdapter;
