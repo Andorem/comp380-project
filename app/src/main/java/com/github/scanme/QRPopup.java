@@ -71,5 +71,4 @@ public class QRPopup extends DialogFragment {
                 "\nScan this QR Code via ScanMe!");
         startActivity(Intent.createChooser(shareIntent, "Share QR Code"));
     }
-
 }

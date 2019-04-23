@@ -95,9 +95,9 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void openQRPrintActivity(ArrayList<QR> selectedQRs){
-     /* Intent intent  = new Intent(this, QRPrint.class);
+      Intent intent  = new Intent(this, QRPrint.class);
         intent.putExtra("QRs", selectedQRs);
-        startActivity(intent);   */
+        startActivity(intent);
     }
 
     /* Main Toolbar Menu */
