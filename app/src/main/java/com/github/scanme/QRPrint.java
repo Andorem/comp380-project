@@ -35,6 +35,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.print.PrintManager;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.scanme.database.QR;
 
@@ -76,24 +80,25 @@ public class QRPrint extends AppCompatActivity {
         public int totalpages = 4;//calculate the number of pages based on the number of QRs selected
 
         private void drawPage(PdfDocument.Page page,
-                              int pagenumber) {
+                              int pagenumber, QR qr) {
             Canvas canvas = page.getCanvas();
 
             pagenumber++; // Make sure page numbers start at 1
 
-            int titleBaseLine = 72;
+           /* int titleBaseLine = 72;
             int leftMargin = 54;
 
             Paint paint = new Paint();
             paint.setColor(Color.BLACK);
             paint.setTextSize(40);
             canvas.drawText(
-                    "Test Print Document Page " + pagenumber,
+                    qr.getTitle(),
                     leftMargin,
                     titleBaseLine,
                     paint);
             paint.setTextSize(14);
-            canvas.drawText("This is some test content to verify that custom document printing works", leftMargin, titleBaseLine + 35, paint);
+            canvas.drawText("Cut these QR codes out and place them wherever you need them.", pageWidth / 2, titleBaseLine + 35, paint);
+            canvas.drawText("Scan it later via ScanMe!", pageWidth / 2, titleBaseLine + 70, paint);
 /*
             if (pagenumber % 2 == 0)
                 paint.setColor(Color.RED);
@@ -110,15 +115,19 @@ public class QRPrint extends AppCompatActivity {
 */
             //for ()
             //canvas.drawBitmap(BitmapFactory.decodeFile(qrOne.getQrPath()), 0, 0, null);
-            canvas.drawBitmap(BitmapFactory.decodeFile(qrOne.getQrPath()), null, new RectF(0,0, 150, 150),null);
+            //canvas.drawBitmap(BitmapFactory.decodeFile(qr.getQrPath()), null, new RectF(10,10, 0, 0),null);
+
+            canvas.drawBitmap(QRPrint.SINGLE.createBitmap(qr, context), 0, 0, null);
 
         }
 
 
 
         public MyPrintDocumentAdapter(Context context)
+
         {
             this.context = context;
+            this.totalpages = listQR.size();
         }
 
         @Override
@@ -158,7 +167,7 @@ public class QRPrint extends AppCompatActivity {
                             final ParcelFileDescriptor destination,
                             final CancellationSignal cancellationSignal,
                             final WriteResultCallback callback) {
-            for (int i = 0; i < totalpages; i++) {
+            for (int i = 0; i <= totalpages; i++) {
                 if (pageInRange(pageRanges, i))
                 {
                     PageInfo newPage = new PageInfo.Builder(pageWidth,
@@ -173,7 +182,7 @@ public class QRPrint extends AppCompatActivity {
                         myPdfDocument = null;
                         return;
                     }
-                    drawPage(page, i);
+                    drawPage(page, i, listQR.get(i));
                     myPdfDocument.finishPage(page);
                 }
             }
@@ -202,6 +211,82 @@ public class QRPrint extends AppCompatActivity {
             return false;
         }
 
+    }
+
+    public final static class SINGLE {
+
+        static int pageHeight = PrintAttributes.MediaSize.NA_LETTER.getHeightMils()/1000 * 72;
+        static int pageWidth = PrintAttributes.MediaSize.NA_LETTER.getWidthMils()/1000 * 72;
+
+        public static Bitmap createBitmap(QR qr, Context context) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view = inflater.inflate( R.layout.print_layout_single, null );
+            int width = View.MeasureSpec.makeMeasureSpec(pageWidth, View.MeasureSpec.EXACTLY);
+            int height = View.MeasureSpec.makeMeasureSpec(pageHeight, View.MeasureSpec.EXACTLY);
+            view.measure(width, height);
+
+            TextView title = view.findViewById(R.id.title);
+            title.setText(qr.getTitle());
+
+            Bitmap qrBitmap = BitmapFactory.decodeFile(qr.getQrPath());
+            ImageView image1 = view.findViewById(R.id.image1);
+            image1.setImageBitmap(qrBitmap);
+
+            ImageView image2 = view.findViewById(R.id.image2);
+            image2.setImageBitmap(qrBitmap);
+
+
+            ImageView image3 = view.findViewById(R.id.image3);
+            image3.setImageBitmap(qrBitmap);
+
+            ImageView image4 = view.findViewById(R.id.image4);
+            image4.setImageBitmap(qrBitmap);
+
+            TextView instr = view.findViewById(R.id.instructions);
+            instr.setText("Place these wherever you need. Scan later with ScanMe!");
+
+            /*TextView titleView = createTextView(context, qr.getTitle(), 20);
+            wrapper.addView(titleView);
+
+            int rows = 2;
+            int cols = 2;
+            GridLayout imageGrid = createGridLayout(context, rows, cols);
+
+            Bitmap qrBitmap = BitmapFactory.decodeFile(qr.getQrPath());
+            for (int i = 0; i <= rows * cols; ++i) {
+                imageGrid.addView(createGridItem(context, qrBitmap, qr.getTitle()));
+            }
+            wrapper.addView(imageGrid);
+
+            TextView instructionView = createTextView(context, qr.getTitle(), 12);
+            wrapper.addView(instructionView);*/
+
+            return BitmapHandler.createFromView(view);
+        }
+
+        public static LinearLayout createLinearLayout(Context context, int orientation) {
+            LinearLayout view = new LinearLayout(context);
+            view.setBackgroundColor(context.getResources().getColor(R.color.white));
+            int width = View.MeasureSpec.makeMeasureSpec(pageWidth, View.MeasureSpec.EXACTLY);
+            int height = View.MeasureSpec.makeMeasureSpec(pageHeight, View.MeasureSpec.EXACTLY);
+            view.measure(width, height);
+            return view;
+        }
+
+        public static TextView createTextView(Context context, String text, int size) {
+            TextView view = new TextView(context);
+            view.setText(text);
+            view.setTextSize(size);
+            view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            return view;
+        }
+
+        public static ImageView createImageView(Context context, Bitmap bitmap) {
+            ImageView view = new ImageView(context);
+            view.setImageBitmap(bitmap);
+           // view.setLayoutParams(new GridLayout.LayoutParams);
+            return view;
+        }
     }
 
 }
