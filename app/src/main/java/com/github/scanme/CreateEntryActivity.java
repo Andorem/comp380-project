@@ -2,6 +2,7 @@ package com.github.scanme;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,20 +11,18 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import com.google.zxing.WriterException;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.common.BitMatrix;
-
 
 import com.github.scanme.database.QR;
 import com.github.scanme.database.QRRepository;
@@ -34,15 +33,20 @@ import java.util.UUID;
 public class CreateEntryActivity extends AppCompatActivity {
 
     protected static final int PERMREQ_CAMERA = 1;
-    private QRRepository qrRepo = new QRRepository(getApplication());
 
+    private QRRepository qrRepo = new QRRepository(getApplication());
+    private genQR qrGenerator;
+
+    // UI elements
     private RelativeLayout cameraBackground;
     private FloatingActionButton cameraButton;
-    private File imageFile;
     private ImageView entryImage;
-    private String ID;
     private EditText editTitle, editDescription;
-    private genQR qr;
+
+    // QR elements
+    private File imageFile;
+    private String ID, imagePath, qrPath;
+    private Bitmap qrImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,10 @@ public class CreateEntryActivity extends AppCompatActivity {
         editDescription = findViewById(R.id.editDescription);
 
         ID = UUID.randomUUID().toString();
-        qr = createQR();
+        qrPath = getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/QRs" + "/QR_" + ID + ".png";
+
+       qrGenerator = new genQR(this);
+       qrGenerator.encode(ID);
     }
 
     public void takePicture(View view) {
@@ -89,6 +96,7 @@ public class CreateEntryActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onActivityResult(int request, int result, Intent intentData) {
         if (request == PERMREQ_CAMERA && result == RESULT_OK) {
@@ -104,21 +112,11 @@ public class CreateEntryActivity extends AppCompatActivity {
         return fileProvider;
     }
 
-    public genQR createQR(){
-        genQR newQR = new genQR();
-        try {
-            newQR.Encoder(ID);
-
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
-        return newQR;
-    }
-
     public void saveEntry(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        QR newQR = new QR(ID, editTitle.getText().toString(), editDescription.getText().toString(), imageFile.getAbsolutePath());
+        QR newQR = new QR(ID, editTitle.getText().toString(), editDescription.getText().toString(), imageFile.getAbsolutePath(), qrPath);
         qrRepo.insert(newQR);
+
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 

@@ -23,12 +23,24 @@ public class QRRepository {
         QRs = qrDao.getAll();
     }
 
+    /* PUBLIC METHODS */
     public LiveData<List<QR>> getAllQRs() {
         return QRs;
     }
+
+    public LiveData<QR> getQR(String id) {
+        return qrDao.getByID(id);
+    }
+
     public void insert(QR qr) {
         new insertAsync(qrDao).execute(qr);
     }
+
+    public void delete(QR qr) {
+        new deleteAsync(qrDao).execute(qr);
+    }
+
+    /*PRIVATE ASYNC TASKS*/
 
     // The Room database requires any data insertion to be in a separate thread (async)
     // This avoids clogging up the main thread, otherwise the UI could be slowed down.
@@ -45,4 +57,32 @@ public class QRRepository {
             return null;
         }
     }
+
+    private class deleteAsync extends AsyncTask<QR, Void, Void> {
+        private QRDao asyncDao;
+
+        deleteAsync(QRDao nonAsyncDao) {
+            asyncDao = nonAsyncDao;
+        }
+
+        @Override
+        protected Void doInBackground(final QR... params) {
+            asyncDao.delete(params[0]);
+            return null;
+        }
+    }
+
+    /*private class getQRAsync extends AsyncTask<String, Void, Void> {
+        private QRDao asyncDao;
+
+        getQRAsync(QRDao nonAsyncDao) {
+            asyncDao = nonAsyncDao;
+        }
+
+        @Override
+        protected Void doInBackground(final String... params) {
+            asyncDao.getByID(params[0]);
+            return null;
+        }
+    }*/
 }

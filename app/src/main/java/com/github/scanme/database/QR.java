@@ -13,24 +13,29 @@
 package com.github.scanme.database;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class QR {
+public class QR implements Parcelable {
 
     /* Table Columns */
     @PrimaryKey
     @NonNull
-    public String ID;
+    private String ID;
 
-    public String title;
-    public String description;
-    public String fromLoc;
-    public String toLoc;
-    public String imagePath;
+    private String title;
+    private String description;
+    private String fromLoc;
+    private String toLoc;
+    private String imagePath;
+    private String qrPath;
 
     /*
     public QR(String ID, String title, String description, String fromLoc, String toLoc, String imagePath) {
@@ -43,19 +48,20 @@ public class QR {
     }
     */
 
-    public QR(String ID, String title, String description, String imagePath) {
+    public QR(String ID, String title, String description, String imagePath, String qrPath) {
         this.ID = ID;
         this.title = title;
         this.description = description;
         this.imagePath = imagePath;
+        this.qrPath = qrPath;
     }
 
     /* Getters and Setters */
 
-    public String getId() {
+    public String getID() {
         return ID;
     }
-    public void setId(String id) {
+    public void setID(String id) {
         this.ID = id;
     }
 
@@ -73,22 +79,67 @@ public class QR {
         this.description = description;
     }
 
-    public String getFrom() {
+    public String getFromLoc() {
         return fromLoc;
     }
-    public void setFrom(String fromLoc) {
+    public void setFromLoc(String fromLoc) {
         this.fromLoc = fromLoc;
     }
 
-    public String getTo() {
+    public String getToLoc() {
         return toLoc;
     }
-    public void setTo(String toLoc) { this.toLoc = toLoc; }
+    public void setToLoc(String toLoc) { this.toLoc = toLoc; }
 
     public String getImagePath() {
         return imagePath;
     }
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public String getQrPath() {
+        return qrPath;
+    }
+    public void setQrPath(String qrPath) {
+        this.qrPath = qrPath;
+    }
+
+    /* The below methods allow QR to be parcelable, i.e. able to pass to activity with intents */
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // Create a Parcel containing all of QR's values
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        String[] vals = {ID, title, description, fromLoc, toLoc, imagePath, qrPath};
+        for (int i = 0; i < vals.length; i++) {
+            out.writeString(vals[i]);
+        }
+    }
+
+    // Required CREATOR in order to parcelize/regenerate the object
+    public static final Parcelable.Creator<QR> CREATOR = new Parcelable.Creator<QR>() {
+        public QR createFromParcel(Parcel in) {
+            return new QR(in);
+        }
+
+        public QR[] newArray(int size) {
+            return new QR[size];
+        }
+    };
+
+    // Convert Parcel to object (must read in order written in)
+    private QR(Parcel in) {
+        ID = in.readString();
+        title = in.readString();
+        description = in.readString();
+        fromLoc = in.readString();
+        toLoc = in.readString();
+        imagePath = in.readString();
+        qrPath = in.readString();
     }
 }
