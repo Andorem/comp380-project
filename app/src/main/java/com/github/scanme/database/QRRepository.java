@@ -9,6 +9,7 @@ package com.github.scanme.database;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import java.io.File;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -30,6 +31,10 @@ public class QRRepository {
 
     public LiveData<QR> getQR(String id) {
         return qrDao.getByID(id);
+    }
+
+    public LiveData<List<QR>> getQRs(String search) {
+        return qrDao.getQRs(search);
     }
 
     public void insert(QR qr) {
@@ -67,7 +72,10 @@ public class QRRepository {
 
         @Override
         protected Void doInBackground(final QR... params) {
-            asyncDao.delete(params[0]);
+            QR qr = params[0];
+            asyncDao.delete(qr);
+            deleteFile(qr.getImagePath());
+            deleteFile(qr.getQrPath());
             return null;
         }
     }
@@ -85,4 +93,10 @@ public class QRRepository {
             return null;
         }
     }*/
+
+    /*HELPER METHODS*/
+    private void deleteFile(String path) {
+        File file = new File(path);
+        file.delete();
+    }
 }

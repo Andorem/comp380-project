@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -59,7 +60,7 @@ public class CreateEntryActivity extends AppCompatActivity {
         editDescription = findViewById(R.id.editDescription);
 
         ID = UUID.randomUUID().toString();
-        qrPath = getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/QR_" + ID + ".png";
+        qrPath = getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/QRs" + "/QR_" + ID + ".png";
 
        qrGenerator = new genQR(this);
        qrGenerator.encode(ID);
@@ -94,6 +95,7 @@ public class CreateEntryActivity extends AppCompatActivity {
             }
         }
     }
+
 
     @Override
     protected void onActivityResult(int request, int result, Intent intentData) {

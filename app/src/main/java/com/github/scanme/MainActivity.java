@@ -1,11 +1,16 @@
 package com.github.scanme;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
+
+import android.Manifest;
 import android.content.Intent;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.github.scanme.entrylist.EntryListAdapter;
@@ -17,11 +22,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -29,30 +33,24 @@ import java.util.List;
 
 import com.github.scanme.database.QR;
 import com.github.scanme.database.QRRepository;
-
-//ysi,0416
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.widget.Button;
-import android.widget.TextView;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+public class MainActivity extends AppCompatActivity{
 
     List<QR> entriesData;
     EntryListAdapter entriesAdapter;
     RecyclerView entriesList;
 
+    SearchView searchView;
+
     boolean EDIT_MODE = false;
     List<QR> selectedQRs = new ArrayList<>();
 
     private QRRepository qrRepo;
-    //ysi,0416
-    private Button scanBtn;
-    private TextView result;
-    private Toolbar toolbar;
-    private final int REQUEST_CODE_SCAN = 111;
+
+    private final int REQUEST_CODE_SCAN = 1111;
 
 
     @Override
@@ -92,12 +90,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        //ysi,0416
-        initView();
     }
 
     // This is the intent used for create button(main activity) ---> createEntryActivity.java
-    public void openCreateEntryActivity(){
+    public void openCreateEntryActivity() {
         Intent intent  = new Intent(this, CreateEntryActivity.class);
         startActivity(intent);
     }
@@ -105,11 +101,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void openViewEntryActivity(QR qr){
         Intent intent  = new Intent(this, ViewEntryActivity.class);
         intent.putExtra("QR", qr);
-        startActivity(intent);
-    }
-
-    public void openQRScanActivity(){
-        Intent intent  = new Intent(this, QRScan.class);
         startActivity(intent);
     }
 
@@ -125,6 +116,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        // Initiate search function
+        searchView = (SearchView) menu.findItem(R.id.searchButton).getActionView();
+        searchView.setOnQueryTextListener(searchListener);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -138,8 +134,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 toggleEditMode();
                 break;
             case R.id.scanButton:
-                openQRScanActivity();
-                Toast.makeText(this, "Scan clicked!", Toast.LENGTH_SHORT).show();
+                doScan();
+                //Toast.makeText(this, "Scan clicked!", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -150,50 +146,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         entriesAdapter.toggleSelectMode();
     }
 
-    //ysi,0416
-    private void initView() {
-        /*scan button*/
-        scanBtn = findViewById(R.id.scanButton);
-        scanBtn.setOnClickListener(this);
-        /*scan result*/
-        result = findViewById(R.id.resultTv);
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("scan");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    /* Search Actions */
+    private SearchView.OnQueryTextListener searchListener = new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    searchEntries(query);
+                    return true;
+                }
 
+                @Override
+                public boolean onQueryTextChange(String newQuery) {
+                    searchEntries(newQuery);
+                    return true;
+                }
 
+                private void searchEntries(String query) {
+                    query = "%" + query + "%";
+                    qrRepo.getQRs(query).observe(MainActivity.this, new Observer<List<QR>>() {
+                                @Override
+                                public void onChanged(@Nullable List<QR> QRs) {
+                                    if (QRs == null) return;
+                                    entriesAdapter.updateEntries(QRs);
+                                }
+                            });
+                }
+            };
 
-    }
-
-    public void doScan(){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+    /*Scan Actions*/
+    public void doScan() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // No permission granted
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_SCAN);
         }
-        else{
-            //permission already been granted
+        else {
+            // Permission already been granted
             Intent intent = new Intent(this, CaptureActivity.class);
-            if(intent.resolveActivity(getPackageManager()) != null){
+            if (intent.resolveActivity(this.getPackageManager()) != null) {
                 startActivityForResult(intent, REQUEST_CODE_SCAN);
             }
         }
     }
 
     @Override
-    public void onClick(View v) {
-        doScan();
-    }
-
-    @Override
-    //new add by Alexis
-    public  void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults){
-        switch(requestCode){
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
             case REQUEST_CODE_SCAN: {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    //granted
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) { // Granted
                     doScan();
                 }
-                else{
-                    //denied, do nothing
+                else { // Denied
                 }
                 return;
             }
@@ -201,17 +202,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,  resultCode, data);
 
         // 扫描二维码/条码回传scan qr/ return code
         if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (data != null) {
-
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
-                result.setText("result of scan" + content);
+                openViewEntryActivity(content);
             }
         }
+    }
+
+    public void openViewEntryActivity(String id) {
+        // Grab QR from database
+        Log.i("MAIN", "openViewEntryActivity from doScan: id = " + id);
+        // Pass QR to its entry screen
+        qrRepo.getQR(id).observe(this, new Observer<QR>() {
+            @Override
+            public void onChanged(@Nullable final QR qr) {
+                if (qr == null) return;
+                Intent intent = new Intent(MainActivity.this, ViewEntryActivity.class);
+                intent.putExtra("QR", qr);
+                startActivity(intent);
+            }
+        });
     }
 
 }
