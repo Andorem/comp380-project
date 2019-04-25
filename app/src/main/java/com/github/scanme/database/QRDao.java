@@ -25,16 +25,19 @@ interface QRDao {
     @Query("SELECT * FROM qr WHERE id IN (:title)")
     LiveData<List<QR>> getAllByTitle(String title);
 
-    @Query("SELECT * FROM qr WHERE fromLoc IN (:from)")
+    /*@Query("SELECT * FROM qr WHERE fromLoc IN (:from)")
     LiveData<List<QR>> getAllFrom(String from);
 
     @Query("SELECT * FROM qr WHERE toLoc IN (:to)")
-    LiveData<List<QR>> getAllTo(String to);
+    LiveData<List<QR>> getAllTo(String to);*/
+
+    @Query("SELECT * FROM qr WHERE location IN (:location)")
+    LiveData<List<QR>> getAllByLocation(String location);
 
     @Query("SELECT * FROM qr WHERE id LIKE :id LIMIT 1")
     LiveData<QR> getByID(String id);
 
-    @Query("SELECT * FROM qr WHERE (title LIKE :search OR description LIKE :search OR toLoc LIKE :search OR fromLoc LIKE :search)")
+    @Query("SELECT * FROM qr WHERE (title LIKE :search OR description LIKE :search OR location LIKE :search)")
     LiveData<List<QR>> getQRs(String search);
 
     @Insert

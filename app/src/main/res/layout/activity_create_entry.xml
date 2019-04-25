@@ -136,9 +136,48 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/titleLabel" />
 
+                <TextView
+                    android:id="@+id/spinnerLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="8sp"
+                    android:text="Location"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editDescription" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:prompt="@string/select_location"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerLabel" />
+
+                <!--<Spinner
+                    android:id="@+id/toSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="120dp"
+                    android:prompt="@string/to"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/fromSpinner"
+                    app:layout_constraintTop_toBottomOf="@+id/editDescription" />-->
+
                 <!-- Tags -->
 
-                <HorizontalScrollView
+                <!--<HorizontalScrollView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -156,7 +195,7 @@
                         android:layout_height="wrap_content">
 
                         <Button
-                            android:id="@+id/tag1"
+                            android:id="@+id/tag_bedroom"
                             android:layout_width="70dp"
                             android:layout_height="38dp"
                             android:layout_marginStart="8dp"
@@ -169,7 +208,7 @@
                             android:clickable="true" />
 
                         <Button
-                            android:id="@+id/tag3"
+                            android:id="@+id/tag_restroom"
                             android:layout_width="70dp"
                             android:layout_height="38dp"
                             android:layout_marginStart="8dp"
@@ -178,13 +217,13 @@
                             android:text="restroom"
                             android:textColor="@android:color/white"
                             android:textSize="12dp"
-                            app:layout_constraintEnd_toStartOf="@+id/tag5"
-                            app:layout_constraintStart_toEndOf="@+id/tag1"
+                            app:layout_constraintEnd_toStartOf="@+id/tag_kitchen"
+                            app:layout_constraintStart_toEndOf="@+id/tag_bedroom"
                             app:layout_constraintTop_toTopOf="parent"
                             android:clickable="true"/>
 
                         <Button
-                            android:id="@+id/tag4"
+                            android:id="@+id/tag_backyard"
                             android:layout_width="70dp"
                             android:layout_height="38dp"
                             android:layout_marginStart="8dp"
@@ -193,27 +232,27 @@
                             android:text="backyard"
                             android:textColor="@android:color/white"
                             android:textSize="12dp"
-                            app:layout_constraintEnd_toStartOf="@+id/tag6"
-                            app:layout_constraintStart_toEndOf="@+id/tag5"
+                            app:layout_constraintEnd_toStartOf="@+id/tag_other"
+                            app:layout_constraintStart_toEndOf="@+id/tag_kitchen"
                             app:layout_constraintTop_toTopOf="parent"
                             android:clickable="true"/>
 
                         <Button
-                            android:id="@+id/tag5"
+                            android:id="@+id/tag_kitchen"
                             android:layout_width="70dp"
                             android:layout_height="38dp"
                             android:background="@color/lightYellow"
                             android:text="kitchen"
                             android:textColor="@android:color/white"
                             android:textSize="12dp"
-                            app:layout_constraintEnd_toStartOf="@+id/tag4"
+                            app:layout_constraintEnd_toStartOf="@+id/tag_backyard"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/tag3"
+                            app:layout_constraintStart_toEndOf="@+id/tag_restroom"
                             app:layout_constraintTop_toTopOf="parent"
                             android:clickable="true"/>
 
                         <Button
-                            android:id="@+id/tag6"
+                            android:id="@+id/tag_other"
                             android:layout_width="70dp"
                             android:layout_height="38dp"
                             android:layout_marginEnd="8dp"
@@ -225,7 +264,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             android:clickable="true"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
-                </HorizontalScrollView>
+                </HorizontalScrollView>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
@@ -243,5 +282,5 @@
         android:tint="@android:color/white"
         app:backgroundTint="@color/brightGreen"
         app:maxImageSize="35dp"
-        app:srcCompat="@drawable/ic_check_foreground" />
+        app:srcCompat="@drawable/ic_check_foreground"/>
 </RelativeLayout>

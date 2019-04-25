@@ -39,6 +39,7 @@ public class ViewEntryActivity extends AppCompatActivity {
     EditText titleEdit;
     TextView descriptionOutput;
     EditText descriptionEdit;
+    FloatingActionButton locationIcon;
     // QRRepository qrRepo = new QRRepository(getApplication());
      TextView editLabel;
      Button button;
@@ -69,6 +70,7 @@ public class ViewEntryActivity extends AppCompatActivity {
         // ID = getIntent().getStringExtra("ID");
         qr = getIntent().getParcelableExtra("QR");
         ID = qr.getID();
+        locationIcon = qr.getLocationButton((FloatingActionButton) findViewById(R.id.locationIcon));
 
         toolbar.setTitle(qr.getTitle());
         setSupportActionBar(toolbar);
@@ -164,17 +166,6 @@ public class ViewEntryActivity extends AppCompatActivity {
         intent.putExtra("CODE", "DELETE");
         startActivity(intent);
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     //gets image w. bitmap

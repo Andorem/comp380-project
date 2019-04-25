@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity{
         switch (item.getItemId()) {
             case R.id.printButton:
                 if (EDIT_MODE) openQRPrintActivity((ArrayList<QR>) entriesAdapter.getSelectedQRs());
+                else entriesAdapter.clearSelectedQRs();
                 item.setIcon(EDIT_MODE ? R.drawable.ic_print : R.drawable.ic_checkmark);
                 toggleEditMode();
                 break;

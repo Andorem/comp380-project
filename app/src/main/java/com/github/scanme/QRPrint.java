@@ -46,7 +46,7 @@ import com.github.scanme.database.QR;
 public class QRPrint extends AppCompatActivity {
 
     Button printBtn;
-    List<QR> listQR;
+    List<QR> listQR = new ArrayList<>();
     QR qrOne;
 
     @Override
