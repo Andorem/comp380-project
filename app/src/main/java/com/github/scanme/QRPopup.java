@@ -1,12 +1,14 @@
 package com.github.scanme;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.print.PrintHelper;
@@ -72,7 +74,26 @@ public class QRPopup extends DialogFragment {
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                printQR();
+                AlertDialog.Builder builder = new AlertDialog.Builder(QRPopup.this);
+               // android.app.AlertDialog.Builder builder1 = new android.app.AlertDialog.Builder(QRPopup);
+                builder.setCancelable(true);
+                builder.setTitle("Are you sure to print or send your QR codes?");
+                builder.setMessage("Send by email, save the forest.");
+
+                builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        printQR();
+                    }
+                });
+               // printQR();
+                builder.show();
             }
         });
 
