@@ -3,12 +3,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_view_entry">view_entry</string>
-<<<<<<<<< Temporary merge branch 1
-    <string name="print_document">Print Document</string>
-    <string name="delete">Delete</string>
-    <string name="edit">Edit</string>
-    <string name="last">Last</string>
-=========
+
     <string name="delete">Delete</string>
     <string name="edit">Edit Title</string>
     <string name="print">Print</string>

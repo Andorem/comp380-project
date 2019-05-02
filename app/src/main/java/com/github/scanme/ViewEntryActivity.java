@@ -23,11 +23,11 @@ import androidx.lifecycle.Observer;
 
 import android.widget.TextView;
 import android.widget.Toast;
-<<<<<<<<< Temporary merge branch 1
+//<<<<<<<<< Temporary merge branch 1
 
 import java.util.ArrayList;
-=========
->>>>>>>>> Temporary merge branch 2
+//=========
+//>>>>>>>>> Temporary merge branch 2
 
 
 public class ViewEntryActivity extends AppCompatActivity {

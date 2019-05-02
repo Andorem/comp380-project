@@ -1,5 +1,6 @@
 package com.github.scanme;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
@@ -7,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,6 +61,43 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //first time boolean check
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
+        if(isFirstRun) {
+            //do something
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            //builder.setCancelable(true);
+            builder.setTitle("Welcome");
+            builder.setMessage("Would you like a tutorial?");
+            builder.setPositiveButton("Yes",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+
+                            Toast.makeText(MainActivity.this, "Confirm check",Toast.LENGTH_SHORT).show();
+
+                            //start activity
+                            startActivity(new Intent(MainActivity.this, CreateEntryActivity.class));
+
+                        }
+        });
+            builder.setNegativeButton("No",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+
+                            Toast.makeText(MainActivity.this, "Delete check",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        }
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isFirstRun", false).commit();
 
         CoordinatorLayout wrapper = findViewById(R.id.wrapper);
 
