@@ -96,6 +96,7 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
     public void deleteItem(int position) {
         deletedItem = entriesData.get(position);
         deletedPos = position;
+        //entriesData.remove(position);
         qrRepo.delete(deletedItem);
        // showUndo();
     }
@@ -109,11 +110,19 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
                 undo();
             }
         });
+        snackbar.addCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar snackbar, int event) {
+                if (event != DISMISS_EVENT_ACTION) {
+                    qrRepo.delete(deletedItem);
+                }
+            }
+        });
         snackbar.show();
     }
 
     private void undo() {
-        qrRepo.insert(deletedItem);
+        entriesData.add(deletedPos, deletedItem);
     }
 
     public boolean isEmpty() {
@@ -144,6 +153,10 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
 
     public List<QR> getSelectedQRs() {
         return selectedQRs;
+    }
+
+    public void clearSelectedQRs() {
+        selectedQRs = new ArrayList<>();
     }
 
     public Context getContext() {

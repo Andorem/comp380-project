@@ -1,7 +1,9 @@
 package com.github.scanme;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,15 +14,20 @@ import com.github.scanme.database.QR;
 import com.github.scanme.database.QRRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 
 import android.widget.TextView;
 import android.widget.Toast;
+<<<<<<<<< Temporary merge branch 1
 
 import java.util.ArrayList;
+=========
+>>>>>>>>> Temporary merge branch 2
 
 
 public class ViewEntryActivity extends AppCompatActivity {
@@ -35,10 +42,13 @@ public class ViewEntryActivity extends AppCompatActivity {
     EditText titleEdit;
     TextView descriptionOutput;
     EditText descriptionEdit;
+    FloatingActionButton locationIcon;
     // QRRepository qrRepo = new QRRepository(getApplication());
      TextView editLabel;
      Button button;
      int option = 0;
+
+     QRRepository qrRepo;
 
 
 
@@ -47,6 +57,9 @@ public class ViewEntryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_entry);
+
+        qrRepo = new QRRepository(getApplication());
+
         pictureOutput = findViewById(R.id.entryPicture);
         titleOutput = findViewById(R.id.titleView);
         descriptionOutput = findViewById(R.id.descriptionView);
@@ -57,10 +70,10 @@ public class ViewEntryActivity extends AppCompatActivity {
         descriptionEdit = new EditText(this);
 
 
-
         // ID = getIntent().getStringExtra("ID");
         qr = getIntent().getParcelableExtra("QR");
         ID = qr.getID();
+        locationIcon = qr.getLocationButton((FloatingActionButton) findViewById(R.id.locationIcon));
 
         toolbar.setTitle(qr.getTitle());
         setSupportActionBar(toolbar);
@@ -124,12 +137,13 @@ public class ViewEntryActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         titleOutput.setText(titleEdit.getText());
+                        qr.setTitle(titleEdit.getText().toString());
+                        qrRepo.update(qr);
                     }
                 });
                 dialog.show();
                 break;
             case R.id.editDescription:
-                //Toast.makeText(this, "editDescription", Toast.LENGTH_SHORT).show();
                     dialog.setView(descriptionEdit);
                     //edit and set new description
                     descriptionEdit.setText(descriptionOutput.getText());
@@ -137,20 +151,30 @@ public class ViewEntryActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             descriptionOutput.setText(descriptionEdit.getText());
+                            qr.setDescription(descriptionEdit.getText().toString());
+                            qrRepo.update(qr);
                         }
                     });
                 dialog.show();
                 break;
             case R.id.Delete:
-                //Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show();
+                qrRepo.delete(qr);
+                openMainActivity();
                 break;
             case R.id.Print:
-               // Toast.makeText(this, "Print", Toast.LENGTH_SHORT).show();
+                QRPopup.printQR(this, qr);
                 break;
         }
         //return true;
         return super.onOptionsItemSelected(item);
     }
+
+    public void openMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("CODE", "DELETE");
+        startActivity(intent);
+    }
+
 
     //gets image w. bitmap
     protected void getImage(String filePath){

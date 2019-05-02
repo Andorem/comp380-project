@@ -13,11 +13,16 @@
 package com.github.scanme.database;
 
 
+import android.content.res.ColorStateList;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.ImageView;
 
+import com.github.scanme.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -32,8 +37,9 @@ public class QR implements Parcelable {
 
     private String title;
     private String description;
-    private String fromLoc;
-    private String toLoc;
+   // private String fromLoc;
+   // private String toLoc;
+    private String location;
     private String imagePath;
     private String qrPath;
 
@@ -48,10 +54,11 @@ public class QR implements Parcelable {
     }
     */
 
-    public QR(String ID, String title, String description, String imagePath, String qrPath) {
+    public QR(String ID, String title, String description, String location, String imagePath, String qrPath) {
         this.ID = ID;
         this.title = title;
         this.description = description;
+        this.location = location.toLowerCase();
         this.imagePath = imagePath;
         this.qrPath = qrPath;
     }
@@ -79,17 +86,25 @@ public class QR implements Parcelable {
         this.description = description;
     }
 
-    public String getFromLoc() {
-        return fromLoc;
-    }
-    public void setFromLoc(String fromLoc) {
-        this.fromLoc = fromLoc;
+    public String getLocation() {
+        return location;
     }
 
-    public String getToLoc() {
-        return toLoc;
+    public void setLocation(String location) {
+        this.location = location.toLowerCase();
     }
-    public void setToLoc(String toLoc) { this.toLoc = toLoc; }
+
+//    public String getFromLoc() {
+//        return fromLoc;
+//    }
+//    public void setFromLoc(String fromLoc) {
+//        this.fromLoc = fromLoc;
+//    }
+//
+//    public String getToLoc() {
+//        return toLoc;
+//    }
+//    public void setToLoc(String toLoc) { this.toLoc = toLoc; }
 
     public String getImagePath() {
         return imagePath;
@@ -105,6 +120,38 @@ public class QR implements Parcelable {
         this.qrPath = qrPath;
     }
 
+    public FloatingActionButton getLocationButton(FloatingActionButton src) {
+        int id, color;
+        switch (location) {
+            case "bedroom":
+                id = R.drawable.ic_bedroom;
+                color = R.color.lightRed;
+                break;
+            case "kitchen":
+                id = R.drawable.ic_kitchen;
+                color = R.color.lightOrange;
+                break;
+            case "bathroom":
+                id = R.drawable.ic_bathroom;
+                color = R.color.lightYellow;
+                break;
+            case "living room":
+                id = R.drawable.ic_livingroom;
+                color = R.color.lightGreen;
+                break;
+            case "backyard":
+                id = R.drawable.ic_backyard;
+                color = R.color.lightBlue;
+                break;
+            default:
+                id = R.drawable.ic_other;
+                color = R.color.darkGray;
+        }
+        src.setImageResource(id);
+        src.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(src.getContext(), color)));
+        return src;
+    }
+
     /* The below methods allow QR to be parcelable, i.e. able to pass to activity with intents */
 
     @Override
@@ -115,7 +162,7 @@ public class QR implements Parcelable {
     // Create a Parcel containing all of QR's values
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        String[] vals = {ID, title, description, fromLoc, toLoc, imagePath, qrPath};
+        String[] vals = {ID, title, description, location, imagePath, qrPath};
         for (int i = 0; i < vals.length; i++) {
             out.writeString(vals[i]);
         }
@@ -137,8 +184,7 @@ public class QR implements Parcelable {
         ID = in.readString();
         title = in.readString();
         description = in.readString();
-        fromLoc = in.readString();
-        toLoc = in.readString();
+        location = in.readString();
         imagePath = in.readString();
         qrPath = in.readString();
     }

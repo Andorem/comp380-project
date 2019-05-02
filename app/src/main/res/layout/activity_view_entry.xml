@@ -31,14 +31,20 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:fillViewport="true"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:id="@+id/topWrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true">
 
             <RelativeLayout
                 android:id="@+id/imageBackground"
@@ -55,6 +61,22 @@
                     android:scaleType="centerInside" />
 
             </RelativeLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/locationIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/imageBackground"
+                android:layout_marginTop="145dp"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/ic_other"
+                android:tint="@color/white"
+                app:backgroundTint="@color/darkGray"
+                app:borderWidth="0dp"
+                app:maxImageSize="35dp"
+                app:elevation="0dp" />
+    </RelativeLayout>
 
             <TextView
                 android:id="@+id/titleLabel"
@@ -120,11 +142,11 @@
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/colorPrimary"
                 android:ems="10"
-                android:textSize="18sp"
                 android:gravity="top"
-                android:padding="4dp"
                 android:inputType="textMultiLine"
+                android:padding="4dp"
                 android:text="Insert Description Here"
+                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@+id/descriptionLabel" />
 
         </LinearLayout>

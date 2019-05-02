@@ -13,6 +13,7 @@ import com.github.scanme.BitmapHandler;
 import com.github.scanme.MainActivity;
 import com.github.scanme.R;
 import com.github.scanme.database.QR;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,7 @@ public class EntryViewHolder extends RecyclerView.ViewHolder {
     private TextView description;
     private ImageView thumbnail;
     private CheckBox checkbox;
+    private FloatingActionButton icon;
     private QR item;
     private Context context;
 
@@ -29,6 +31,7 @@ public class EntryViewHolder extends RecyclerView.ViewHolder {
         this.title = view.findViewById(R.id.title);
         this.description = view.findViewById(R.id.description);
         this.thumbnail = view.findViewById(R.id.thumbnail);
+        this.icon = view.findViewById(R.id.locationIcon);
         this.checkbox = view.findViewById(R.id.checkbox);
         this.context = context;
     }
@@ -40,6 +43,7 @@ public class EntryViewHolder extends RecyclerView.ViewHolder {
         description.setText(qr.getDescription());
         Bitmap image = BitmapHandler.decodeAsThumbnail(context, qr.getImagePath(), 40, 40);
         thumbnail.setImageBitmap(image);
+        icon = qr.getLocationButton(icon);
     }
 
     CheckBox getCheckbox() {

@@ -3,6 +3,7 @@ package com.github.scanme;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,26 +14,36 @@ import android.provider.MediaStore;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
 import com.github.scanme.database.QR;
 import com.github.scanme.database.QRRepository;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 public class CreateEntryActivity extends AppCompatActivity {
 
     protected static final int PERMREQ_CAMERA = 1;
+    private boolean ENTRY_CREATED;
 
     private QRRepository qrRepo = new QRRepository(getApplication());
     private genQR qrGenerator;
@@ -42,10 +53,11 @@ public class CreateEntryActivity extends AppCompatActivity {
     private FloatingActionButton cameraButton;
     private ImageView entryImage;
     private EditText editTitle, editDescription;
+    private Spinner locationSpinner;
 
     // QR elements
     private File imageFile;
-    private String ID, imagePath, qrPath;
+    private String ID, imagePath = "", qrPath = "", location = "";
     private Bitmap qrImage;
 
     @Override
@@ -53,11 +65,21 @@ public class CreateEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_entry);
 
+        ENTRY_CREATED = false;
+
         cameraBackground = findViewById(R.id.cameraBackground);
         cameraButton = findViewById(R.id.cameraButton);
         entryImage = findViewById(R.id.entryImage);
         editTitle = findViewById(R.id.editTitle);
         editDescription = findViewById(R.id.editDescription);
+
+        // Location spinner creation
+        locationSpinner = findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.locations, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        locationSpinner.setAdapter(adapter);
+        locationSpinner.setOnItemSelectedListener(spinnerListener);
 
         ID = UUID.randomUUID().toString();
         qrPath = getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/QRs" + "/QR_" + ID + ".png";
@@ -114,11 +136,55 @@ public class CreateEntryActivity extends AppCompatActivity {
     }
 
     public void saveEntry(View view) {
-        QR newQR = new QR(ID, editTitle.getText().toString(), editDescription.getText().toString(), imageFile.getAbsolutePath(), qrPath);
-        qrRepo.insert(newQR);
+        ENTRY_CREATED = true;
+        if (imageFile == null || !imageFile.exists()) {
+            showAlert("You must include an image for your entry!");
+            return;
+        }
+        else {
+            QR newQR = new QR(ID, editTitle.getText().toString(), editDescription.getText().toString(), location, imageFile.getAbsolutePath(), qrPath);
+            qrRepo.insert(newQR);
 
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    /* Spinner Listener */
+    private AdapterView.OnItemSelectedListener spinnerListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            location = (String) parent.getItemAtPosition(position);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+        }
+    };
+
+    /* Alert Dialog */
+    private void showAlert( String alert) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle( "ERROR" )
+                .setMessage(alert)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                }).show();
+    }
+
+    // Handle image deletion in case user aborts entry creation
+    @Override
+    public void onStop() {
+        if (!ENTRY_CREATED) {
+            File file = new File(qrPath);
+            if (file.exists()) file.delete();
+
+            file = new File(imagePath);
+            if (file.exists()) file.delete();
+        }
+        super.onStop();
     }
 
 }

@@ -139,7 +139,7 @@ public class genQR {
             catch (IOException e) {
                 Log.e("GENQR", e.getMessage());
             }
-        }
+    }
     public Bitmap getBitmap() {
         return bitmap;
     }

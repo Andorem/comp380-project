@@ -1,6 +1,7 @@
 package com.github.scanme;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.github.scanme.entrylist.EntryListAdapter;
@@ -58,6 +60,8 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        CoordinatorLayout wrapper = findViewById(R.id.wrapper);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -89,6 +93,20 @@ public class MainActivity extends AppCompatActivity{
                 entriesAdapter.updateEntries(QRs);
             }
         });
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            String code = intent.getStringExtra("CODE");
+            if (code != null) {
+                switch(code) {
+                    case "DELETE":
+                        Toast.makeText(this, "Deleted QR Code!", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
 
     }
 
@@ -130,6 +148,7 @@ public class MainActivity extends AppCompatActivity{
         switch (item.getItemId()) {
             case R.id.printButton:
                 if (EDIT_MODE) openQRPrintActivity((ArrayList<QR>) entriesAdapter.getSelectedQRs());
+                else entriesAdapter.clearSelectedQRs();
                 item.setIcon(EDIT_MODE ? R.drawable.ic_print : R.drawable.ic_checkmark);
                 toggleEditMode();
                 break;
@@ -214,7 +233,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    public void openViewEntryActivity(String id) {
+       public void openViewEntryActivity(String id) {
         // Grab QR from database
         Log.i("MAIN", "openViewEntryActivity from doScan: id = " + id);
         // Pass QR to its entry screen
