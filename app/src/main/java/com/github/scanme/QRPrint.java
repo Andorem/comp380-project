@@ -117,7 +117,7 @@ public class QRPrint extends AppCompatActivity {
             //canvas.drawBitmap(BitmapFactory.decodeFile(qrOne.getQrPath()), 0, 0, null);
             //canvas.drawBitmap(BitmapFactory.decodeFile(qr.getQrPath()), null, new RectF(10,10, 0, 0),null);
 
-            canvas.drawBitmap(QRPrint.SINGLE.createBitmap(qr, context), 0, 0, null);
+            canvas.drawBitmap(QRPrint.SINGLE.createBitmap(qr, context, page), 0, 0, null);
 
         }
 
@@ -215,11 +215,14 @@ public class QRPrint extends AppCompatActivity {
 
     public final static class SINGLE {
 
-        static int pageHeight = PrintAttributes.MediaSize.NA_LETTER.getHeightMils()/1000 * 72;
-        static int pageWidth = PrintAttributes.MediaSize.NA_LETTER.getWidthMils()/1000 * 72;
+        static int pageHeight = PrintAttributes.MediaSize.NA_LETTER.getHeightMils();
+        static int pageWidth = PrintAttributes.MediaSize.NA_LETTER.getWidthMils();
         static View view;
 
-        public static Bitmap createBitmap(QR qr, Context context) {
+        public static Bitmap createBitmap(QR qr, Context context, PdfDocument.Page page) {
+            pageHeight = page.getInfo().getPageHeight();
+            pageWidth = page.getInfo().getPageWidth();
+
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate( R.layout.print_layout_single, null );
             int width = View.MeasureSpec.makeMeasureSpec(pageWidth, View.MeasureSpec.EXACTLY);
@@ -233,7 +236,10 @@ public class QRPrint extends AppCompatActivity {
             TextView instr = view.findViewById(R.id.instructions);
             instr.setText("Place these wherever you need. Scan later with ScanMe!");
 
-            return BitmapHandler.createFromView(view);
+            Bitmap bitmap = BitmapHandler.createFromView(view);
+            bitmap.setHeight(pageHeight);
+            bitmap.setWidth(pageWidth);
+            return bitmap;
         }
 
         private static void setTitles(String title) {

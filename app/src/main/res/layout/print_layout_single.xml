@@ -2,78 +2,79 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/outer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:maxWidth="5dp"
     android:orientation="vertical"
-    android:id="@+id/outer"
     android:padding="10dp">
 
     <LinearLayout
+        android:id="@+id/big"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/big">
+        android:orientation="horizontal">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/big_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border-dashed"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/big_title"
+                android:layout_width="210dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="TextView"
+                android:textColor="@color/darkGray"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/big_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/big_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="16dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/big_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/big_main"
-                android:background="@drawable/border">
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_other"
+                android:tint="@color/white"
+                app:backgroundTint="@color/darkGray"
+                app:borderWidth="0dp"
+                app:elevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/big_image"
+                app:layout_constraintTop_toTopOf="@+id/big_image"
+                app:maxImageSize="45dp" />
 
-                <TextView
-                    android:id="@+id/big_title"
-                    android:layout_width="210dp"
-                    android:layout_height="26dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="2dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="TextView"
-                    android:textColor="@color/darkGray"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toTopOf="@+id/big_image"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/big_image"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="16dp"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/big_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_other"
-                    android:tint="@color/white"
-                    app:backgroundTint="@color/darkGray"
-                    app:borderWidth="0dp"
-                    app:elevation="0dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/big_image"
-                    app:layout_constraintTop_toTopOf="@+id/big_image"
-                    app:maxImageSize="45dp" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/big_mini"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:background="@drawable/border"
-            android:orientation="vertical"
-            android:layout_marginStart="10dp">
+            android:layout_marginStart="10dp"
+            android:background="@drawable/border-dashed"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/mini_title"
@@ -121,24 +122,24 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/small"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/small_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/small_top">
+            android:orientation="horizontal">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/small1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border"
+                android:background="@drawable/border-dashed"
                 android:orientation="vertical">
 
                 <TextView
@@ -182,7 +183,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/small1_image"
                     app:layout_constraintTop_toTopOf="@+id/small1_image"
-                    app:maxImageSize="40dp" />
+                    app:maxImageSize="35dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -191,7 +192,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border"
+                android:background="@drawable/border-dashed"
                 android:orientation="vertical">
 
                 <TextView
@@ -234,24 +235,25 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/small2_image"
                     app:layout_constraintTop_toTopOf="@+id/small2_image"
-                    app:maxImageSize="40dp" />
+                    app:maxImageSize="35dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/small_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/small_bottom">
+            android:orientation="horizontal">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/small3"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border"
+                android:background="@drawable/border-dashed"
                 android:orientation="vertical">
 
                 <TextView
@@ -295,7 +297,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/small3_image"
                     app:layout_constraintTop_toTopOf="@+id/small3_image"
-                    app:maxImageSize="40dp" />
+                    app:maxImageSize="35dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -304,7 +306,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border"
+                android:background="@drawable/border-dashed"
                 android:orientation="vertical">
 
                 <TextView
@@ -347,7 +349,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/small4_image"
                     app:layout_constraintTop_toTopOf="@+id/small4_image"
-                    app:maxImageSize="40dp" />
+                    app:maxImageSize="35dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -356,7 +358,7 @@
     </LinearLayout>
 
 
-   <!-- <GridLayout
+    <!-- <GridLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="6dp"
@@ -404,6 +406,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|bottom"
         android:text="TextView"
-        android:textSize="14sp"/>
+        android:textSize="14sp" />
 
 </LinearLayout>
