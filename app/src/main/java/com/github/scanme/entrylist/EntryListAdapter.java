@@ -155,6 +155,10 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
         return selectedQRs;
     }
 
+    public boolean isSelectedQRsEmpty() {
+        return selectedQRs.isEmpty();
+    }
+
     public void clearSelectedQRs() {
         selectedQRs = new ArrayList<>();
     }

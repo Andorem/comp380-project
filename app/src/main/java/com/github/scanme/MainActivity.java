@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity{
 
     private final int REQUEST_CODE_SCAN = 1111;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,8 +146,12 @@ public class MainActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.printButton:
-                if (EDIT_MODE) openQRPrintActivity((ArrayList<QR>) entriesAdapter.getSelectedQRs());
-                else entriesAdapter.clearSelectedQRs();
+                if (EDIT_MODE && !entriesAdapter.isSelectedQRsEmpty()) {
+                    openQRPrintActivity((ArrayList<QR>) entriesAdapter.getSelectedQRs());
+                }
+                else {
+                    entriesAdapter.clearSelectedQRs();
+                }
                 item.setIcon(EDIT_MODE ? R.drawable.ic_print : R.drawable.ic_checkmark);
                 toggleEditMode();
                 break;

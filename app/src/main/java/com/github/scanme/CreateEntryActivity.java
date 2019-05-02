@@ -138,7 +138,7 @@ public class CreateEntryActivity extends AppCompatActivity {
     public void saveEntry(View view) {
         ENTRY_CREATED = true;
         if (imageFile == null || !imageFile.exists()) {
-            showAlert("You must include an image for your entry!");
+            takePicture(cameraButton);
             return;
         }
         else {
