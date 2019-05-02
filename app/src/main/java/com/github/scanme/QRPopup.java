@@ -74,13 +74,14 @@ public class QRPopup extends DialogFragment {
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(QRPopup.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                //AlertDialog.Builder builder = new AlertDialog.Builder(QRPopup.this).create();
                // android.app.AlertDialog.Builder builder1 = new android.app.AlertDialog.Builder(QRPopup);
                 builder.setCancelable(true);
                 builder.setTitle("Are you sure to print or send your QR codes?");
                 builder.setMessage("Send by email, save the forest.");
 
-                builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
