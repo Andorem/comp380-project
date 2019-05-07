@@ -163,6 +163,10 @@ public class ViewEntryActivity extends AppCompatActivity {
                     });
                 dialog.show();
                 break;
+            case R.id.editTag:
+                //enter edit tag feature here
+                Toast.makeText(this, "editTag", Toast.LENGTH_SHORT).show();
+                break;
             case R.id.Delete:
                 qrRepo.delete(qr);
                 openMainActivity();
