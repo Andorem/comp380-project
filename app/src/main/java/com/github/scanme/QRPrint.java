@@ -44,30 +44,35 @@ import com.github.scanme.database.QR;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-public class QRPrint extends AppCompatActivity {
+public class QRPrint {
 
     Button printBtn;
     List<QR> listQR = new ArrayList<>();
     QR qrOne;
+    Context context;
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print_qrlist);
         listQR = new ArrayList<>();
         Intent intent = getIntent();
         listQR = intent.getParcelableArrayListExtra("QRs");
+    }*/
+
+    public QRPrint(Context context, List<QR> QRs) {
+        this.context = context;
+        this.listQR = QRs;
     }
 
     public void printDocument(View view)
     {
-        PrintManager printManager = (PrintManager) this
-                .getSystemService(Context.PRINT_SERVICE);
+        PrintManager printManager = (PrintManager) context.getSystemService(Context.PRINT_SERVICE);
 
-        String jobName = this.getString(R.string.app_name) +
+        String jobName = context.getString(R.string.app_name) +
                 " Document";
 
-        printManager.print(jobName, new MyPrintDocumentAdapter(this),
+        printManager.print(jobName, new MyPrintDocumentAdapter(context),
                 null);
     }
 
@@ -215,8 +220,8 @@ public class QRPrint extends AppCompatActivity {
 
     public final static class SINGLE {
 
-        static int pageHeight = PrintAttributes.MediaSize.NA_LETTER.getHeightMils();
-        static int pageWidth = PrintAttributes.MediaSize.NA_LETTER.getWidthMils();
+        static int pageHeight = PrintAttributes.MediaSize.NA_LETTER.getHeightMils()/1000 * 72;
+        static int pageWidth = PrintAttributes.MediaSize.NA_LETTER.getWidthMils()/1000 * 72;
         static View view;
 
         public static Bitmap createBitmap(QR qr, Context context) {

@@ -123,7 +123,7 @@ public class CreateEntryActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int request, int result, Intent intentData) {
         if (request == PERMREQ_CAMERA && result == RESULT_OK) {
-            entryImage.setImageBitmap(BitmapHandler.rotateImage(this, imageFile.getAbsolutePath()));
+            entryImage.setImageBitmap(BitmapHandler.rotateImage(this, imagePath));
             entryImage.setVisibility(View.VISIBLE);
             cameraButton.setVisibility(View.GONE);
         }
@@ -138,8 +138,8 @@ public class CreateEntryActivity extends AppCompatActivity {
     public void saveEntry(View view) {
         ENTRY_CREATED = true;
         if (imageFile == null || !imageFile.exists()) {
-            takePicture(cameraButton);
-            return;
+            //takePicture(cameraButton);
+            showAlert("You must include an image for your entry!");
         }
         else {
             QR newQR = new QR(ID, editTitle.getText().toString(), editDescription.getText().toString(), location, imageFile.getAbsolutePath(), qrPath);

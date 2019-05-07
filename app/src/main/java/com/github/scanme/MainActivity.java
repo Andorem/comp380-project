@@ -154,7 +154,8 @@ public class MainActivity extends AppCompatActivity{
         switch (item.getItemId()) {
             case R.id.printButton:
                 if (EDIT_MODE && !entriesAdapter.isSelectedQRsEmpty()) {
-                    openQRPrintActivity((ArrayList<QR>) entriesAdapter.getSelectedQRs());
+                    QRPrint qrPrint = new QRPrint(this, entriesAdapter.getSelectedQRs());
+                    qrPrint.printDocument(item.getActionView());
                 }
                 else {
                     entriesAdapter.clearSelectedQRs();
