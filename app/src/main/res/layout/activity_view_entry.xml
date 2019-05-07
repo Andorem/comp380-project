@@ -59,7 +59,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="175dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerInside"/>
+                    android:scaleType="centerInside" />
 
             </RelativeLayout>
 

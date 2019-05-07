@@ -22,13 +22,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 
 import android.widget.TextView;
+import android.widget.Toast;
+//<<<<<<<<< Temporary merge branch 1
 
 import java.util.ArrayList;
-import android.widget.Toast;
+//=========
+//>>>>>>>>> Temporary merge branch 2
 
 
 public class ViewEntryActivity extends AppCompatActivity {
-    AlertDialog dialog;
+    //AlertDialog dialog;
     String ID;
     QR qr;
     boolean editMode = false;
@@ -61,7 +64,6 @@ public class ViewEntryActivity extends AppCompatActivity {
         titleOutput = findViewById(R.id.titleView);
         descriptionOutput = findViewById(R.id.descriptionView);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        dialog = new AlertDialog.Builder(this).create();
         //dialogTwo = new AlertDialog.Builder(this).create();
         titleEdit = new EditText(this);
         descriptionEdit = new EditText(this);
@@ -85,6 +87,10 @@ public class ViewEntryActivity extends AppCompatActivity {
         // get image
         getImage(qr.getImagePath());
        // pictureOutput = findViewById(R.id.entryPicture);
+
+
+        //image stretch
+        //pictureOutput.setScaleType(ImageView.ScaleType.FIT_XY);
 
         //setter
         titleOutput.setText(qr.getTitle());
@@ -118,11 +124,16 @@ public class ViewEntryActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+        AlertDialog dialog;
         dialog = new AlertDialog.Builder(this).create();
         dialog.setTitle("Edit");
         switch(item.getItemId()){
             case R.id.editTitle:
+                //Toast.makeText(this, "editTitle", Toast.LENGTH_SHORT).show();
+               // if (dialog.isShowing())
+                   // dialog.dismiss();
                 dialog.setView(titleEdit);
+                //AlertDialog alertDialog = dialog.show();
                 //edit and set new title
                 titleEdit.setText(titleOutput.getText());
                 dialog.setButton(DialogInterface.BUTTON_POSITIVE, "SAVE EDIT", new DialogInterface.OnClickListener() {
@@ -131,11 +142,14 @@ public class ViewEntryActivity extends AppCompatActivity {
                         titleOutput.setText(titleEdit.getText());
                         qr.setTitle(titleEdit.getText().toString());
                         qrRepo.update(qr);
+                        dialog.dismiss();
                     }
                 });
+                //final AlertDialog dialog = dialog.show();
                 dialog.show();
                 break;
             case R.id.editDescription:
+
                     dialog.setView(descriptionEdit);
                     //edit and set new description
                     descriptionEdit.setText(descriptionOutput.getText());
@@ -148,6 +162,10 @@ public class ViewEntryActivity extends AppCompatActivity {
                         }
                     });
                 dialog.show();
+                break;
+            case R.id.editTag:
+                //enter edit tag feature here
+                Toast.makeText(this, "editTag", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.Delete:
                 qrRepo.delete(qr);
