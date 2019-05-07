@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Tutorial"></activity>
+        <activity android:name=".Tutorial"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".QRPrint" />
         <activity
             android:name=".ViewEntryActivity"
