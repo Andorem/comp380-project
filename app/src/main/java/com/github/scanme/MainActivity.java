@@ -76,10 +76,10 @@ public class MainActivity extends AppCompatActivity{
                         @Override
                         public void onClick(DialogInterface dialog, int i) {
 
-                            Toast.makeText(MainActivity.this, "Confirm check",Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(MainActivity.this, "Confirm check",Toast.LENGTH_SHORT).show();
 
                             //start activity
-                            startActivity(new Intent(MainActivity.this, CreateEntryActivity.class));
+                            startActivity(new Intent(MainActivity.this, Tutorial.class));
 
                         }
         });
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity{
                         @Override
                         public void onClick(DialogInterface dialog, int i) {
 
-                            Toast.makeText(MainActivity.this, "Delete check",Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(MainActivity.this, "Delete check",Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -167,6 +167,11 @@ public class MainActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
+    public void openTutorialActivity(){
+        Intent intent = new Intent(this, Tutorial.class);
+        startActivity(intent);
+    }
+
     /* Main Toolbar Menu */
 
     // Inflate the toolbar with the custom menu layout and retrieve icons
@@ -195,6 +200,10 @@ public class MainActivity extends AppCompatActivity{
                 doScan();
                 //Toast.makeText(this, "Scan clicked!", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.tutorialButton:
+                openTutorialActivity();
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
