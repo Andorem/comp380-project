@@ -16,17 +16,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.Launcher">
         <activity android:name=".QRPrint"></activity>
         <activity
             android:name=".ViewEntryActivity"
             android:label="@string/title_activity_view_entry"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CreateEntryActivity" />
+        <activity
+        android:name=".CreateEntryActivity"
+        android:label="Create Entry"
+        android:theme="@style/AppTheme" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -219,9 +219,14 @@ public class QRPrint extends AppCompatActivity {
         static int pageWidth = PrintAttributes.MediaSize.NA_LETTER.getWidthMils();
         static View view;
 
+        public static Bitmap createBitmap(QR qr, Context context) {
+            return createBitmap(qr, context, null);
+        }
         public static Bitmap createBitmap(QR qr, Context context, PdfDocument.Page page) {
-            pageHeight = page.getInfo().getPageHeight();
-            pageWidth = page.getInfo().getPageWidth();
+           if (page != null) {
+               pageHeight = page.getInfo().getPageHeight();
+               pageWidth = page.getInfo().getPageWidth();
+           }
 
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate( R.layout.print_layout_single, null );

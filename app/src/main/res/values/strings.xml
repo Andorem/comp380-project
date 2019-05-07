@@ -11,11 +11,11 @@
     <string name="select_location">Select Location</string>
     <string name="to">To</string>
     <string-array name="locations">
+        <item>Other</item>
         <item>Bedroom</item>
         <item>Kitchen</item>
         <item>Bathroom</item>
         <item>Living Room</item>
         <item>Backyard</item>
-        <item>Other</item>
     </string-array>
 </resources>

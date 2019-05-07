@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
                 android:minHeight="175dp"
-                android:background="#00BFA5"
+                android:background="@color/colorPrimaryLight"
                 android:onClick="takePicture"
                 android:focusable="true">
 
@@ -50,7 +50,7 @@
                     android:clickable="true"
                     android:onClick="takePicture"
                     android:tint="@android:color/white"
-                    app:backgroundTint="@color/colorPrimary"
+                    app:backgroundTint="@color/colorPrimaryDark"
                     app:fabCustomSize="100dp"
                     app:maxImageSize="70dp"
                     app:srcCompat="@drawable/ic_camera_foreground" />
