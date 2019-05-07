@@ -41,7 +41,7 @@ public class EntryViewHolder extends RecyclerView.ViewHolder {
 
         title.setText(qr.getTitle());
         description.setText(qr.getDescription());
-        Bitmap image = BitmapHandler.decodeAsThumbnail(context, qr.getImagePath(), 40, 40);
+        Bitmap image = BitmapHandler.decodeAsThumbnail(context, qr.getImagePath(), 100, 100);
         thumbnail.setImageBitmap(image);
         icon = qr.getLocationButton(icon);
     }

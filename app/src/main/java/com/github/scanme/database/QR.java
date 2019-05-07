@@ -145,7 +145,7 @@ public class QR implements Parcelable {
                 break;
             default:
                 id = R.drawable.ic_other;
-                color = R.color.darkGray;
+                color = R.color.gray;
         }
         src.setImageResource(id);
         src.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(src.getContext(), color)));

@@ -38,7 +38,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:background="@color/darkGray">
 
             <RelativeLayout
                 android:id="@+id/topWrapper"
@@ -72,82 +73,125 @@
                 android:layout_marginBottom="2dp"
                 android:src="@drawable/ic_other"
                 android:tint="@color/white"
-                app:backgroundTint="@color/darkGray"
+                app:backgroundTint="@color/gray"
                 app:borderWidth="0dp"
                 app:maxImageSize="35dp"
                 app:elevation="0dp" />
     </RelativeLayout>
 
-            <TextView
-                android:id="@+id/titleLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
-                android:lineSpacingExtra="8sp"
-                android:text="Title"
-                android:textAlignment="viewStart"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="21sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/titleView"
-                app:layout_constraintTop_toBottomOf="@+id/entryPicture"
-
-                />
 
 
-            <TextView
-                android:id="@+id/titleView"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:ems="10"
-                android:inputType="textShortMessage|textPersonName"
-                android:padding="4dp"
-                android:text="INSERT TITLE HERE"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/descriptionLabel"
-                app:layout_constraintTop_toBottomOf="@+id/titleLabel" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:background="@color/darkGray"
+                android:paddingBottom="60dp">
 
-            <TextView
-                android:id="@+id/descriptionLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
-                android:lineSpacingExtra="8sp"
-                android:text="Description"
-                android:textAlignment="viewStart"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="21sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/descriptionView"
-                app:layout_constraintTop_toBottomOf="@+id/titleView" />
+            <!-- Title -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/titleWrapper"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_round_noborder"
+                    app:layout_constraintBottom_toTopOf="@+id/descriptionWrapper"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/descriptionView"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:ems="10"
-                android:gravity="top"
-                android:inputType="textMultiLine"
-                android:padding="4dp"
-                android:text="Insert Description Here"
-                android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/descriptionLabel" />
+                    <TextView
+                        android:id="@+id/titleLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/rectangle_bottom_border"
+                        android:lineSpacingExtra="8sp"
+                        android:padding="5dp"
+                        android:text="Title"
+                        android:textAlignment="viewStart"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="21sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/titleView"
+                        app:layout_constraintTop_toTopOf="parent"
+
+                        />
+
+
+                    <TextView
+                        android:id="@+id/titleView"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:ems="10"
+                        android:inputType="textShortMessage|textPersonName"
+                        android:padding="4dp"
+                        android:text="INSERT TITLE HERE"
+                        android:textSize="20sp"
+                        tools:layout_editor_absoluteX="5dp"
+                        tools:layout_editor_absoluteY="43dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/descriptionWrapper"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/rectangle_round_noborder"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/titleWrapper">
+
+                    <TextView
+                        android:id="@+id/descriptionLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/rectangle_bottom_border"
+                        android:lineSpacingExtra="8sp"
+                        android:padding="5dp"
+                        android:text="Description"
+                        android:textAlignment="viewStart"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="21sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/descriptionView"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/descriptionView"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:ems="10"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:minHeight="150dp"
+                        android:padding="4dp"
+                        android:text="Insert Description Here"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/descriptionLabel" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
 
