@@ -13,6 +13,7 @@ public class Tutorial extends AppCompatActivity {
 
     CarouselView carouselView;
     int[] tutorialImages = {R.raw.app_1, R.raw.app_2, R.raw.spp_3, R.raw.app_4};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

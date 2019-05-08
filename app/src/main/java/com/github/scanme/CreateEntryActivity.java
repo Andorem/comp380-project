@@ -118,8 +118,6 @@ public class CreateEntryActivity extends AppCompatActivity {
         }
     }
 
-
-
     @Override
     protected void onActivityResult(int request, int result, Intent intentData) {
         if (request == PERMREQ_CAMERA && result == RESULT_OK) {
@@ -161,6 +159,7 @@ public class CreateEntryActivity extends AppCompatActivity {
         public void onNothingSelected(AdapterView<?> parent) {
         }
     };
+
 
     /* Alert Dialog */
     private void showAlert( String alert) {

@@ -94,7 +94,6 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/titleView"
                 app:layout_constraintTop_toBottomOf="@+id/entryPicture"
-
                 />
 
 
