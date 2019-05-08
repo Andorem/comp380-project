@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +23,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 //<<<<<<<<< Temporary merge branch 1
@@ -43,6 +46,7 @@ public class ViewEntryActivity extends AppCompatActivity {
     TextView descriptionOutput;
     EditText descriptionEdit;
     FloatingActionButton locationIcon;
+    Spinner locationSpinner;
     // QRRepository qrRepo = new QRRepository(getApplication());
      TextView editLabel;
      Button button;
@@ -67,12 +71,18 @@ public class ViewEntryActivity extends AppCompatActivity {
         //dialogTwo = new AlertDialog.Builder(this).create();
         titleEdit = new EditText(this);
         descriptionEdit = new EditText(this);
+        locationSpinner = new Spinner(this, Spinner.MODE_DIALOG);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.locations, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        locationSpinner.setAdapter(adapter);
+        locationSpinner.setOnItemSelectedListener(spinnerListener);
 
 
         // ID = getIntent().getStringExtra("ID");
         qr = getIntent().getParcelableExtra("QR");
         ID = qr.getID();
-        locationIcon = qr.getLocationButton((FloatingActionButton) findViewById(R.id.locationIcon));
 
         toolbar.setTitle(qr.getTitle());
         setSupportActionBar(toolbar);
@@ -104,6 +114,7 @@ public class ViewEntryActivity extends AppCompatActivity {
         qrRepo = new QRRepository(getApplication());
         qr = qrRepo.getQR(ID).getValue();*/
 
+        locationIcon = qr.getLocationButton((FloatingActionButton) findViewById(R.id.locationIcon));
 
         FloatingActionButton fab = findViewById(R.id.entryQR);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -124,8 +135,8 @@ public class ViewEntryActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        AlertDialog dialog;
-        dialog = new AlertDialog.Builder(this).create();
+        AlertDialog.Builder dialog;
+        dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Edit");
         switch(item.getItemId()){
             case R.id.editTitle:
@@ -136,7 +147,7 @@ public class ViewEntryActivity extends AppCompatActivity {
                 //AlertDialog alertDialog = dialog.show();
                 //edit and set new title
                 titleEdit.setText(titleOutput.getText());
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "SAVE EDIT", new DialogInterface.OnClickListener() {
+                dialog.setPositiveButton("SAVE EDIT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         titleOutput.setText(titleEdit.getText());
@@ -153,19 +164,38 @@ public class ViewEntryActivity extends AppCompatActivity {
                     dialog.setView(descriptionEdit);
                     //edit and set new description
                     descriptionEdit.setText(descriptionOutput.getText());
-                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "SAVE EDIT", new DialogInterface.OnClickListener() {
+                    dialog.setPositiveButton("SAVE EDIT", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             descriptionOutput.setText(descriptionEdit.getText());
                             qr.setDescription(descriptionEdit.getText().toString());
                             qrRepo.update(qr);
+                            dialog.dismiss();
                         }
                     });
                 dialog.show();
                 break;
             case R.id.editTag:
-                //enter edit tag feature here
-                Toast.makeText(this, "editTag", Toast.LENGTH_SHORT).show();
+                final String oldLocation = qr.getLocation();
+                dialog.setView(locationSpinner);
+                //edit and set new description
+                dialog.setPositiveButton("SAVE EDIT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        locationIcon = qr.getLocationButton((FloatingActionButton) findViewById(R.id.locationIcon));
+                        qrRepo.update(qr);
+                        dialog.dismiss();
+                    }
+                });
+                dialog.setOnCancelListener(
+                        new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                qr.setLocation(oldLocation);
+                            }
+                        }
+                );
+                dialog.show();
                 break;
             case R.id.Delete:
                 qrRepo.delete(qr);
@@ -190,4 +220,16 @@ public class ViewEntryActivity extends AppCompatActivity {
     protected void getImage(String filePath){
         pictureOutput.setImageBitmap(BitmapHandler.rotateImage(this, filePath));
     }
+
+    /* Spinner Listener */
+    private AdapterView.OnItemSelectedListener spinnerListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            qr.setLocation((String) parent.getItemAtPosition(position));
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+        }
+    };
 }// end class

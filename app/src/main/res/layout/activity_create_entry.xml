@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.github.scanme.CreateEntryActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/darkGray">
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -26,8 +27,7 @@
             <RelativeLayout
                 android:id="@+id/cameraBackground"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="190dp"
+                android:layout_height="175dp"
                 android:background="@color/colorPrimaryLight"
                 android:onClick="takePicture"
                 android:focusable="true">
@@ -335,7 +335,7 @@
         android:layout_marginBottom="5dp"
         android:onClick="saveEntry"
         android:tint="@android:color/white"
-        app:backgroundTint="@color/brightGreen"
+        app:backgroundTint="@color/colorAccent"
         app:maxImageSize="35dp"
         app:srcCompat="@drawable/ic_check_foreground"/>
 </RelativeLayout>

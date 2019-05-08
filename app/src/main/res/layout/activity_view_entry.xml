@@ -50,7 +50,7 @@
             <RelativeLayout
                 android:id="@+id/imageBackground"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="175dp"
                 android:background="@color/colorPrimaryLight"
                 android:focusable="true">
 
@@ -59,7 +59,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="175dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerInside" />
+                    android:scaleType="centerInside"/>
 
             </RelativeLayout>
 
@@ -83,7 +83,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:background="@color/darkGray"
                 android:paddingBottom="60dp">
 
@@ -117,10 +117,10 @@
                         android:textColor="@color/white"
                         android:textSize="21sp"
                         android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/titleView"
                         app:layout_constraintStart_toStartOf="@+id/titleView"
-                        app:layout_constraintTop_toTopOf="parent"
 
-                        />
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                     <TextView
@@ -129,14 +129,18 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
                         android:backgroundTint="@color/colorPrimary"
                         android:ems="10"
-                        android:inputType="textShortMessage|textPersonName"
                         android:padding="4dp"
                         android:text="INSERT TITLE HERE"
                         android:textSize="20sp"
-                        tools:layout_editor_absoluteX="5dp"
-                        tools:layout_editor_absoluteY="43dp" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/titleLabel" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
