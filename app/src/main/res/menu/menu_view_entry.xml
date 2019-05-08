@@ -9,6 +9,8 @@
         android:id="@+id/editDescription"/>
     <item android:title="Edit Tag"
         android:id="@+id/editTag"/>
+    <item android:title="Edit Image"
+        android:id="@+id/editImage"/>
     <item android:title="@string/delete"
         android:id="@+id/Delete"/>
     <item android:title="@string/print"

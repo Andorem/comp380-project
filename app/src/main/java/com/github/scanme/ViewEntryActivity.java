@@ -1,8 +1,15 @@
 package com.github.scanme;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +28,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 
 import android.widget.Spinner;
@@ -28,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 //<<<<<<<<< Temporary merge branch 1
 
+import java.io.File;
 import java.util.ArrayList;
 //=========
 //>>>>>>>>> Temporary merge branch 2
@@ -38,20 +49,24 @@ public class ViewEntryActivity extends AppCompatActivity {
     String ID;
     QR qr;
     boolean editMode = false;
+    protected static final int PERMREQ_CAMERA = 1;
+    Intent takePictureIntent;
+    private File imageFile;
+    Context context;
 
     //ImageView pictureOutput = new ImageView(getApplicationContext()); TEST
     ImageView pictureOutput;
     TextView titleOutput;
-    EditText titleEdit;
+
     TextView descriptionOutput;
-    EditText descriptionEdit;
+
     FloatingActionButton locationIcon;
-    Spinner locationSpinner;
+
     // QRRepository qrRepo = new QRRepository(getApplication());
      TextView editLabel;
      Button button;
      int option = 0;
-
+     ArrayAdapter<CharSequence> adapter;
      QRRepository qrRepo;
 
 
@@ -62,6 +77,8 @@ public class ViewEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_entry);
 
+        context = this;
+
         qrRepo = new QRRepository(getApplication());
 
         pictureOutput = findViewById(R.id.entryPicture);
@@ -69,15 +86,13 @@ public class ViewEntryActivity extends AppCompatActivity {
         descriptionOutput = findViewById(R.id.descriptionView);
         Toolbar toolbar = findViewById(R.id.toolbar);
         //dialogTwo = new AlertDialog.Builder(this).create();
-        titleEdit = new EditText(this);
-        descriptionEdit = new EditText(this);
-        locationSpinner = new Spinner(this, Spinner.MODE_DIALOG);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+
+
+
+        adapter = ArrayAdapter.createFromResource(this,
                 R.array.locations, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        locationSpinner.setAdapter(adapter);
-        locationSpinner.setOnItemSelectedListener(spinnerListener);
 
 
         // ID = getIntent().getStringExtra("ID");
@@ -109,12 +124,12 @@ public class ViewEntryActivity extends AppCompatActivity {
         descriptionOutput.setText(qr.getDescription());
         //descriptionOutput = findViewById(R.id.descriptionView);
 
+        locationIcon = qr.getLocationButton((FloatingActionButton) findViewById(R.id.locationIcon));
+
 /*
         Log.d("VIEW_ENTRY", "ID retrieved: " + ID);
         qrRepo = new QRRepository(getApplication());
         qr = qrRepo.getQR(ID).getValue();*/
-
-        locationIcon = qr.getLocationButton((FloatingActionButton) findViewById(R.id.locationIcon));
 
         FloatingActionButton fab = findViewById(R.id.entryQR);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -133,13 +148,14 @@ public class ViewEntryActivity extends AppCompatActivity {
         //return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        AlertDialog.Builder dialog;
-        dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Edit");
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         switch(item.getItemId()){
             case R.id.editTitle:
+                final EditText titleEdit = new EditText(this);
+                dialog.setTitle("Edit");
                 //Toast.makeText(this, "editTitle", Toast.LENGTH_SHORT).show();
                // if (dialog.isShowing())
                    // dialog.dismiss();
@@ -154,13 +170,15 @@ public class ViewEntryActivity extends AppCompatActivity {
                         qr.setTitle(titleEdit.getText().toString());
                         qrRepo.update(qr);
                         dialog.dismiss();
+                        Toast.makeText(context, "Title edited!", Toast.LENGTH_SHORT).show();
                     }
                 });
                 //final AlertDialog dialog = dialog.show();
                 dialog.show();
                 break;
             case R.id.editDescription:
-
+                    final EditText descriptionEdit = new EditText(this);
+                    dialog.setTitle("Edit");
                     dialog.setView(descriptionEdit);
                     //edit and set new description
                     descriptionEdit.setText(descriptionOutput.getText());
@@ -171,11 +189,18 @@ public class ViewEntryActivity extends AppCompatActivity {
                             qr.setDescription(descriptionEdit.getText().toString());
                             qrRepo.update(qr);
                             dialog.dismiss();
+                            Toast.makeText(context, "Description edited!", Toast.LENGTH_SHORT).show();
                         }
                     });
                 dialog.show();
                 break;
             case R.id.editTag:
+                final Spinner locationSpinner = new Spinner(this, Spinner.MODE_DIALOG);
+                int p = this.getResources().getDimensionPixelSize(R.dimen.spinner_padding);
+                locationSpinner.setPadding(p, p, p, p);
+                locationSpinner.setAdapter(adapter);
+                locationSpinner.setOnItemSelectedListener(spinnerListener);
+                dialog.setTitle("Edit");
                 final String oldLocation = qr.getLocation();
                 dialog.setView(locationSpinner);
                 //edit and set new description
@@ -185,6 +210,7 @@ public class ViewEntryActivity extends AppCompatActivity {
                         locationIcon = qr.getLocationButton((FloatingActionButton) findViewById(R.id.locationIcon));
                         qrRepo.update(qr);
                         dialog.dismiss();
+                        Toast.makeText(context, "Tag edited!", Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.setOnCancelListener(
@@ -195,7 +221,11 @@ public class ViewEntryActivity extends AppCompatActivity {
                             }
                         }
                 );
+                locationSpinner.setSelection(adapter.getPosition(qr.getLocation()), false);
                 dialog.show();
+                break;
+            case R.id.editImage:
+                takePicture(pictureOutput);
                 break;
             case R.id.Delete:
                 qrRepo.delete(qr);
@@ -232,4 +262,54 @@ public class ViewEntryActivity extends AppCompatActivity {
         public void onNothingSelected(AdapterView<?> parent) {
         }
     };
+
+    public void takePicture(View view) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // No permission granted
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMREQ_CAMERA);
+        }
+        else {
+            // Permission already been granted
+            final int REQUEST_IMAGE_CAPTURE = 1;
+            takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // Call System Camera App
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, createImageURI());
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMREQ_CAMERA: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) { // Granted
+                    takePicture(pictureOutput);
+                }
+                else { // Denied
+                }
+                return;
+            }
+        }
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int request, int result, Intent intentData) {
+        takePictureIntent = intentData;
+        if (request == PERMREQ_CAMERA && result == RESULT_OK) {
+            pictureOutput.setImageBitmap(BitmapHandler.rotateImage(this, qr.getImagePath()));
+            qrRepo.update(qr);
+            Toast.makeText(context, "Image edited!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public Uri createImageURI() {
+        imageFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "IMG_" + ID + ".png");
+        Uri fileProvider = FileProvider.getUriForFile(ViewEntryActivity.this, "com.codepath.fileprovider", imageFile);
+
+        return fileProvider;
+    }
+
 }// end class
