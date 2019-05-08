@@ -23,6 +23,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 
+import android.widget.Spinner;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -46,14 +47,17 @@ public class ViewEntryActivity extends AppCompatActivity {
     EditText titleEdit;
     TextView descriptionOutput;
     EditText descriptionEdit;
-    Spinner locationSpinner;
+    //Spinner locationSpinner;
     FloatingActionButton locationIcon;
+    Spinner locationSpinner;
     // QRRepository qrRepo = new QRRepository(getApplication());
      TextView editLabel;
      Button button;
      int option = 0;
 
      QRRepository qrRepo;
+
+
 
     //onCreate method starts
     @Override
@@ -70,25 +74,24 @@ public class ViewEntryActivity extends AppCompatActivity {
         //dialogTwo = new AlertDialog.Builder(this).create();
         titleEdit = new EditText(this);
         descriptionEdit = new EditText(this);
-        final Spinner locationSpinner = new Spinner(this);
+        locationSpinner = new Spinner(this, Spinner.MODE_DIALOG);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.locations, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locationSpinner.setAdapter(adapter);
-
+        locationSpinner.setOnItemSelectedListener(spinnerListener);
 
 
         // ID = getIntent().getStringExtra("ID");
         qr = getIntent().getParcelableExtra("QR");
         ID = qr.getID();
+        //locationIcon = qr.getLocationButton((FloatingActionButton) findViewById(R.id.locationIcon));
 
         toolbar.setTitle(qr.getTitle());
         setSupportActionBar(toolbar);
 
 
-
-       // locationSpinner.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         /*
         //TEST TEST TEST TEST
         Bitmap bitmap = (Bitmap)this.getIntent().getParcelableExtra("Bitmap");
@@ -110,15 +113,12 @@ public class ViewEntryActivity extends AppCompatActivity {
         descriptionOutput.setText(qr.getDescription());
         //descriptionOutput = findViewById(R.id.descriptionView);
 
-
 /*
         Log.d("VIEW_ENTRY", "ID retrieved: " + ID);
         qrRepo = new QRRepository(getApplication());
         qr = qrRepo.getQR(ID).getValue();*/
 
-        //location
         locationIcon = qr.getLocationButton((FloatingActionButton) findViewById(R.id.locationIcon));
-
 
         FloatingActionButton fab = findViewById(R.id.entryQR);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -139,8 +139,8 @@ public class ViewEntryActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        AlertDialog dialog;
-        dialog = new AlertDialog.Builder(this).create();
+        AlertDialog.Builder dialog;
+        dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Edit");
         switch(item.getItemId()){
             case R.id.editTitle:
@@ -151,7 +151,7 @@ public class ViewEntryActivity extends AppCompatActivity {
                 //AlertDialog alertDialog = dialog.show();
                 //edit and set new title
                 titleEdit.setText(titleOutput.getText());
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "SAVE EDIT", new DialogInterface.OnClickListener() {
+                dialog.setPositiveButton("SAVE EDIT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         titleOutput.setText(titleEdit.getText());
@@ -168,26 +168,38 @@ public class ViewEntryActivity extends AppCompatActivity {
                     dialog.setView(descriptionEdit);
                     //edit and set new description
                     descriptionEdit.setText(descriptionOutput.getText());
-                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "SAVE EDIT", new DialogInterface.OnClickListener() {
+                    dialog.setPositiveButton("SAVE EDIT", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             descriptionOutput.setText(descriptionEdit.getText());
                             qr.setDescription(descriptionEdit.getText().toString());
                             qrRepo.update(qr);
+                            dialog.dismiss();
                         }
                     });
                 dialog.show();
                 break;
             case R.id.editTag:
-                //enter edit tag feature here
+                final String oldLocation = qr.getLocation();
                 dialog.setView(locationSpinner);
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "SAVE TAG", new DialogInterface.OnClickListener() {
+                //edit and set new description
+                dialog.setPositiveButton("SAVE EDIT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        locationSpinner.setOnItemSelectedListener(spinnerListener);
+                        locationIcon = qr.getLocationButton((FloatingActionButton) findViewById(R.id.locationIcon));
+                        qrRepo.update(qr);
+                        dialog.dismiss();
                     }
                 });
-
+                dialog.setOnCancelListener(
+                        new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                qr.setLocation(oldLocation);
+                            }
+                        }
+                );
+                dialog.show();
                 break;
             case R.id.Delete:
                 qrRepo.delete(qr);
@@ -213,14 +225,11 @@ public class ViewEntryActivity extends AppCompatActivity {
         pictureOutput.setImageBitmap(BitmapHandler.rotateImage(this, filePath));
     }
 
-
     /* Spinner Listener */
     private AdapterView.OnItemSelectedListener spinnerListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-           String location = (String) parent.getItemAtPosition(position);
-            qr.setLocation(location);
-            qrRepo.update(qr);
+            qr.setLocation((String) parent.getItemAtPosition(position));
         }
 
         @Override

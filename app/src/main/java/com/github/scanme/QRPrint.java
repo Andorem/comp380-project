@@ -41,32 +41,38 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.scanme.database.QR;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-public class QRPrint extends AppCompatActivity {
+public class QRPrint {
 
     Button printBtn;
     List<QR> listQR = new ArrayList<>();
     QR qrOne;
+    Context context;
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print_qrlist);
         listQR = new ArrayList<>();
         Intent intent = getIntent();
         listQR = intent.getParcelableArrayListExtra("QRs");
+    }*/
+
+    public QRPrint(Context context, List<QR> QRs) {
+        this.context = context;
+        this.listQR = QRs;
     }
 
     public void printDocument(View view)
     {
-        PrintManager printManager = (PrintManager) this
-                .getSystemService(Context.PRINT_SERVICE);
+        PrintManager printManager = (PrintManager) context.getSystemService(Context.PRINT_SERVICE);
 
-        String jobName = this.getString(R.string.app_name) +
+        String jobName = context.getString(R.string.app_name) +
                 " Document";
 
-        printManager.print(jobName, new MyPrintDocumentAdapter(this),
+        printManager.print(jobName, new MyPrintDocumentAdapter(context),
                 null);
     }
 
@@ -116,7 +122,7 @@ public class QRPrint extends AppCompatActivity {
             //canvas.drawBitmap(BitmapFactory.decodeFile(qrOne.getQrPath()), 0, 0, null);
             //canvas.drawBitmap(BitmapFactory.decodeFile(qr.getQrPath()), null, new RectF(10,10, 0, 0),null);
 
-            canvas.drawBitmap(QRPrint.SINGLE.createBitmap(qr, context), 0, 0, null);
+            canvas.drawBitmap(QRPrint.SINGLE.createBitmap(qr, context, page), 0, 0, null);
 
         }
 
@@ -216,51 +222,84 @@ public class QRPrint extends AppCompatActivity {
 
         static int pageHeight = PrintAttributes.MediaSize.NA_LETTER.getHeightMils()/1000 * 72;
         static int pageWidth = PrintAttributes.MediaSize.NA_LETTER.getWidthMils()/1000 * 72;
+        static View view;
 
         public static Bitmap createBitmap(QR qr, Context context) {
+            return createBitmap(qr, context, null);
+        }
+        public static Bitmap createBitmap(QR qr, Context context, PdfDocument.Page page) {
+           if (page != null) {
+               pageHeight = page.getInfo().getPageHeight();
+               pageWidth = page.getInfo().getPageWidth();
+           }
+
             LayoutInflater inflater = LayoutInflater.from(context);
-            View view = inflater.inflate( R.layout.print_layout_single, null );
+            view = inflater.inflate( R.layout.print_layout_single, null );
             int width = View.MeasureSpec.makeMeasureSpec(pageWidth, View.MeasureSpec.EXACTLY);
             int height = View.MeasureSpec.makeMeasureSpec(pageHeight, View.MeasureSpec.EXACTLY);
             view.measure(width, height);
 
-            TextView title = view.findViewById(R.id.title);
-            title.setText(qr.getTitle());
-
-            Bitmap qrBitmap = BitmapFactory.decodeFile(qr.getQrPath());
-            ImageView image1 = view.findViewById(R.id.image1);
-            image1.setImageBitmap(qrBitmap);
-
-            ImageView image2 = view.findViewById(R.id.image2);
-            image2.setImageBitmap(qrBitmap);
-
-
-            ImageView image3 = view.findViewById(R.id.image3);
-            image3.setImageBitmap(qrBitmap);
-
-            ImageView image4 = view.findViewById(R.id.image4);
-            image4.setImageBitmap(qrBitmap);
+            setTitles(qr.getTitle());
+            setQRCodes(qr.getQrPath());
+            setIcons(qr);
 
             TextView instr = view.findViewById(R.id.instructions);
             instr.setText("Place these wherever you need. Scan later with ScanMe!");
 
-            /*TextView titleView = createTextView(context, qr.getTitle(), 20);
-            wrapper.addView(titleView);
+            Bitmap bitmap = BitmapHandler.createFromView(view);
+            bitmap.setHeight(pageHeight);
+            bitmap.setWidth(pageWidth);
+            return bitmap;
+        }
 
-            int rows = 2;
-            int cols = 2;
-            GridLayout imageGrid = createGridLayout(context, rows, cols);
+        private static void setTitles(String title) {
+            TextView bigTitle = view.findViewById(R.id.big_title);
+            bigTitle.setText(title);
 
-            Bitmap qrBitmap = BitmapFactory.decodeFile(qr.getQrPath());
-            for (int i = 0; i <= rows * cols; ++i) {
-                imageGrid.addView(createGridItem(context, qrBitmap, qr.getTitle()));
-            }
-            wrapper.addView(imageGrid);
+            TextView miniTitle = view.findViewById(R.id.mini_title);
+            miniTitle.setText(title);
 
-            TextView instructionView = createTextView(context, qr.getTitle(), 12);
-            wrapper.addView(instructionView);*/
+            TextView smallTitle1 = view.findViewById(R.id.small1_title);
+            smallTitle1.setText(title);
 
-            return BitmapHandler.createFromView(view);
+            TextView smallTitle2 = view.findViewById(R.id.small2_title);
+            smallTitle2.setText(title);
+
+            TextView smallTitle3 = view.findViewById(R.id.small3_title);
+            smallTitle3.setText(title);
+
+            TextView small4Title = view.findViewById(R.id.small4_title);
+            small4Title.setText(title);
+        }
+
+        private static void setQRCodes(String path) {
+            Bitmap qrBitmap = BitmapFactory.decodeFile(path);
+            ImageView bigImage = view.findViewById(R.id.big_image);
+            bigImage.setImageBitmap(qrBitmap);
+
+            ImageView miniImage = view.findViewById(R.id.mini_image);
+            miniImage.setImageBitmap(qrBitmap);
+
+            ImageView smallImage1 = view.findViewById(R.id.small1_image);
+            smallImage1.setImageBitmap(qrBitmap);
+
+            ImageView smallImage2 = view.findViewById(R.id.small2_image);
+            smallImage2.setImageBitmap(qrBitmap);
+
+            ImageView smallImage3 = view.findViewById(R.id.small3_image);
+            smallImage3.setImageBitmap(qrBitmap);
+
+            ImageView smallImage4 = view.findViewById(R.id.small4_image);
+            smallImage4.setImageBitmap(qrBitmap);
+        }
+
+        private static void setIcons(QR qr) {
+            FloatingActionButton bigIcon = qr.getLocationButton((FloatingActionButton) view.findViewById(R.id.big_icon));
+            FloatingActionButton miniIcon = qr.getLocationButton((FloatingActionButton) view.findViewById(R.id.mini_icon));
+            FloatingActionButton smallIcon1 = qr.getLocationButton((FloatingActionButton) view.findViewById(R.id.small1_icon));
+            FloatingActionButton smallIcon2 = qr.getLocationButton((FloatingActionButton) view.findViewById(R.id.small2_icon));
+            FloatingActionButton smallIcon3 = qr.getLocationButton((FloatingActionButton) view.findViewById(R.id.small3_icon));
+            FloatingActionButton smallIcon4 = qr.getLocationButton((FloatingActionButton) view.findViewById(R.id.small4_icon));
         }
 
         public static LinearLayout createLinearLayout(Context context, int orientation) {

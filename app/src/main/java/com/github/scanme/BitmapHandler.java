@@ -72,7 +72,7 @@ public class BitmapHandler {
         try {
             ei = new ExifInterface(imagePath);
         }
-        catch (IOException e) {
+        catch (Exception e) {
             return image;
         }
         int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);

@@ -43,7 +43,9 @@ import java.util.UUID;
 public class CreateEntryActivity extends AppCompatActivity {
 
     protected static final int PERMREQ_CAMERA = 1;
-    private boolean ENTRY_CREATED;
+    Intent takePictureIntent;
+    boolean dataCalled;
+    //private boolean ENTRY_CREATED;
 
     private QRRepository qrRepo = new QRRepository(getApplication());
     private genQR qrGenerator;
@@ -58,14 +60,16 @@ public class CreateEntryActivity extends AppCompatActivity {
     // QR elements
     private File imageFile;
     private String ID, imagePath = "", qrPath = "", location = "";
+    private Uri imageUri;
     private Bitmap qrImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_entry);
+        // Avoid image data being destroyed after orientation change
 
-        ENTRY_CREATED = false;
+       // ENTRY_CREATED = false;
 
         cameraBackground = findViewById(R.id.cameraBackground);
         cameraButton = findViewById(R.id.cameraButton);
@@ -83,6 +87,16 @@ public class CreateEntryActivity extends AppCompatActivity {
 
         ID = UUID.randomUUID().toString();
         qrPath = getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/QRs" + "/QR_" + ID + ".png";
+        imagePath = getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/IMG_" + ID + ".png";
+
+       /* if (savedInstanceState != null) {
+            imageUri = savedInstanceState.getParcelable("uri");
+            if (!dataCalled) {
+                takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // Call System Camera App
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                dataCalled = true;
+            }
+        }*/
 
        qrGenerator = new genQR(this);
        qrGenerator.encode(ID);
@@ -96,7 +110,7 @@ public class CreateEntryActivity extends AppCompatActivity {
         else {
             // Permission already been granted
             final int REQUEST_IMAGE_CAPTURE = 1;
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // Call System Camera App
+            takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // Call System Camera App
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, createImageURI());
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -118,10 +132,13 @@ public class CreateEntryActivity extends AppCompatActivity {
         }
     }
 
+
+
     @Override
     protected void onActivityResult(int request, int result, Intent intentData) {
+        takePictureIntent = intentData;
         if (request == PERMREQ_CAMERA && result == RESULT_OK) {
-            entryImage.setImageBitmap(BitmapHandler.rotateImage(this, imageFile.getAbsolutePath()));
+            entryImage.setImageBitmap(BitmapHandler.rotateImage(this, imagePath));
             entryImage.setVisibility(View.VISIBLE);
             cameraButton.setVisibility(View.GONE);
         }
@@ -130,17 +147,18 @@ public class CreateEntryActivity extends AppCompatActivity {
     public Uri createImageURI() {
         imageFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "IMG_" + ID + ".png");
         Uri fileProvider = FileProvider.getUriForFile(CreateEntryActivity.this, "com.codepath.fileprovider", imageFile);
+
         return fileProvider;
     }
 
     public void saveEntry(View view) {
-        ENTRY_CREATED = true;
+        //ENTRY_CREATED = true;
         if (imageFile == null || !imageFile.exists()) {
+            //takePicture(cameraButton);
             showAlert("You must include an image for your entry!");
-            return;
         }
         else {
-            QR newQR = new QR(ID, editTitle.getText().toString(), editDescription.getText().toString(), location, imageFile.getAbsolutePath(), qrPath);
+            QR newQR = new QR(ID, editTitle.getText().toString(), editDescription.getText().toString(), location, imagePath, qrPath);
             qrRepo.insert(newQR);
 
             Intent intent = new Intent(this, MainActivity.class);
@@ -160,6 +178,22 @@ public class CreateEntryActivity extends AppCompatActivity {
         }
     };
 
+    /*// Save activity data (image) in case it was destroyed and recreated
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putParcelable("uri", imageUri);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        imageUri = savedInstanceState.getParcelable("uri");
+        if (!dataCalled) {
+            takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // Call System Camera App
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            dataCalled = true;
+        }
+    }*/
 
     /* Alert Dialog */
     private void showAlert( String alert) {
@@ -173,9 +207,9 @@ public class CreateEntryActivity extends AppCompatActivity {
                 }).show();
     }
 
-    // Handle image deletion in case user aborts entry creation
+   /* // Handle image deletion in case user aborts entry creation
     @Override
-    public void onStop() {
+    public void onBackPressed() {
         if (!ENTRY_CREATED) {
             File file = new File(qrPath);
             if (file.exists()) file.delete();
@@ -184,6 +218,6 @@ public class CreateEntryActivity extends AppCompatActivity {
             if (file.exists()) file.delete();
         }
         super.onStop();
-    }
+    }*/
 
 }
