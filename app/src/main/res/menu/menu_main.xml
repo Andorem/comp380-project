@@ -12,7 +12,6 @@
         android:icon="@drawable/ic_print"
         android:title="Print"
         app:showAsAction="always|withText" />
-
     <item
         android:id="@+id/scanButton"
         android:icon="@drawable/ic_scan"

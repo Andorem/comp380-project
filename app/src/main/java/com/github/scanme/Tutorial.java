@@ -12,7 +12,7 @@ import com.synnapps.carouselview.CarouselView;
 public class Tutorial extends AppCompatActivity {
 
     CarouselView carouselView;
-    int[] tutorialImages = {R.raw.app_1, R.raw.app_2, R.raw.spp_3, R.raw.app_4};
+    int[] tutorialImages = {R.raw.screen1, R.raw.screen2, R.raw.screen3, R.raw.screen4, R.raw.screen5, R.raw.screen6, R.raw.screen7, R.raw.screen8};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
