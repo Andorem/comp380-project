@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,6 +99,8 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
         deletedPos = position;
         //entriesData.remove(position);
         qrRepo.delete(deletedItem);
+
+        Toast.makeText(getContext(), "Deleted QR!", Toast.LENGTH_SHORT).show();
        // showUndo();
     }
 

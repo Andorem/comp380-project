@@ -256,9 +256,6 @@ public class QRPrint {
             TextView bigTitle = view.findViewById(R.id.big_title);
             bigTitle.setText(title);
 
-            TextView miniTitle = view.findViewById(R.id.mini_title);
-            miniTitle.setText(title);
-
             TextView smallTitle1 = view.findViewById(R.id.small1_title);
             smallTitle1.setText(title);
 
@@ -277,8 +274,7 @@ public class QRPrint {
             ImageView bigImage = view.findViewById(R.id.big_image);
             bigImage.setImageBitmap(qrBitmap);
 
-            ImageView miniImage = view.findViewById(R.id.mini_image);
-            miniImage.setImageBitmap(qrBitmap);
+            ImageView miniImage = view.findViewById(R.id.logo);
 
             ImageView smallImage1 = view.findViewById(R.id.small1_image);
             smallImage1.setImageBitmap(qrBitmap);
@@ -295,7 +291,6 @@ public class QRPrint {
 
         private static void setIcons(QR qr) {
             FloatingActionButton bigIcon = qr.getLocationButton((FloatingActionButton) view.findViewById(R.id.big_icon));
-            FloatingActionButton miniIcon = qr.getLocationButton((FloatingActionButton) view.findViewById(R.id.mini_icon));
             FloatingActionButton smallIcon1 = qr.getLocationButton((FloatingActionButton) view.findViewById(R.id.small1_icon));
             FloatingActionButton smallIcon2 = qr.getLocationButton((FloatingActionButton) view.findViewById(R.id.small2_icon));
             FloatingActionButton smallIcon3 = qr.getLocationButton((FloatingActionButton) view.findViewById(R.id.small3_icon));

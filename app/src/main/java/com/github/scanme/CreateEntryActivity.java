@@ -155,7 +155,7 @@ public class CreateEntryActivity extends AppCompatActivity {
         //ENTRY_CREATED = true;
         if (imageFile == null || !imageFile.exists()) {
             //takePicture(cameraButton);
-            showAlert("You must include an image for your entry!");
+            showAlert("The followi");
         }
         else {
             QR newQR = new QR(ID, editTitle.getText().toString(), editDescription.getText().toString(), location, imagePath, qrPath);
@@ -198,7 +198,7 @@ public class CreateEntryActivity extends AppCompatActivity {
     /* Alert Dialog */
     private void showAlert( String alert) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle( "ERROR" )
+        dialog.setTitle( "Required Fields" )
                 .setMessage(alert)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int i) {
