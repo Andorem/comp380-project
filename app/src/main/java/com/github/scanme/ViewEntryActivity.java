@@ -161,7 +161,7 @@ public class ViewEntryActivity extends AppCompatActivity {
                 //Toast.makeText(this, "editTitle", Toast.LENGTH_SHORT).show();
                // if (dialog.isShowing())
                    // dialog.dismiss();
-                titleEdit = new EditText(this);
+               // titleEdit = new EditText(this);
 
                 dialog.setView(titleEdit);
                 //AlertDialog alertDialog = dialog.show();
