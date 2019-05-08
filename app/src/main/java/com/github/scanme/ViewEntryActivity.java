@@ -72,15 +72,7 @@ public class ViewEntryActivity extends AppCompatActivity {
         descriptionOutput = findViewById(R.id.descriptionView);
         Toolbar toolbar = findViewById(R.id.toolbar);
         //dialogTwo = new AlertDialog.Builder(this).create();
-        titleEdit = new EditText(this);
-        descriptionEdit = new EditText(this);
-        locationSpinner = new Spinner(this, Spinner.MODE_DIALOG);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.locations, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        locationSpinner.setAdapter(adapter);
-        locationSpinner.setOnItemSelectedListener(spinnerListener);
 
 
         // ID = getIntent().getStringExtra("ID");
@@ -147,6 +139,8 @@ public class ViewEntryActivity extends AppCompatActivity {
                 //Toast.makeText(this, "editTitle", Toast.LENGTH_SHORT).show();
                // if (dialog.isShowing())
                    // dialog.dismiss();
+                titleEdit = new EditText(this);
+
                 dialog.setView(titleEdit);
                 //AlertDialog alertDialog = dialog.show();
                 //edit and set new title
@@ -164,8 +158,10 @@ public class ViewEntryActivity extends AppCompatActivity {
                 dialog.show();
                 break;
             case R.id.editDescription:
+                descriptionEdit = new EditText(this);
 
-                    dialog.setView(descriptionEdit);
+
+                dialog.setView(descriptionEdit);
                     //edit and set new description
                     descriptionEdit.setText(descriptionOutput.getText());
                     dialog.setPositiveButton("SAVE EDIT", new DialogInterface.OnClickListener() {
@@ -181,6 +177,15 @@ public class ViewEntryActivity extends AppCompatActivity {
                 break;
             case R.id.editTag:
                 final String oldLocation = qr.getLocation();
+
+                locationSpinner = new Spinner(this, Spinner.MODE_DIALOG);
+
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                        R.array.locations, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                locationSpinner.setAdapter(adapter);
+                locationSpinner.setOnItemSelectedListener(spinnerListener);
+
                 dialog.setView(locationSpinner);
                 //edit and set new description
                 dialog.setPositiveButton("SAVE EDIT", new DialogInterface.OnClickListener() {
