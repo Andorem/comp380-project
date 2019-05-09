@@ -41,9 +41,8 @@ public class EntryViewHolder extends RecyclerView.ViewHolder {
 
         title.setText(qr.getTitle());
         description.setText(qr.getDescription());
-        Bitmap image = BitmapHandler.decodeAsThumbnail(context, qr.getImagePath(), 100, 100);
-        thumbnail.setImageBitmap(image);
-        icon = qr.getLocationButton(icon);
+        setImage();
+        icon = qr.getLocationButton(icon, true);
     }
 
     CheckBox getCheckbox() {
@@ -52,6 +51,11 @@ public class EntryViewHolder extends RecyclerView.ViewHolder {
 
     View getView() {
         return this.itemView;
+    }
+
+    private void setImage() {
+            Bitmap image = BitmapHandler.decodeAsThumbnail(context, item.getImagePath(), 75, 75);
+            thumbnail.setImageBitmap(image);
     }
 
 

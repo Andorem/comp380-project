@@ -76,8 +76,10 @@ public class QRRepository {
         protected Void doInBackground(final QR... params) {
             QR qr = params[0];
             asyncDao.delete(qr);
-            deleteFile(qr.getImagePath());
-            deleteFile(qr.getQrPath());
+            if (!qr.getImagePath().startsWith("test")) {
+                deleteFile(qr.getImagePath());
+                deleteFile(qr.getQrPath());
+            }
             return null;
         }
     }

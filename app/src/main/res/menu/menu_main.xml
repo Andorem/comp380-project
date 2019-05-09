@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/debugButton"
+        android:icon="@drawable/ic_tools"
+        android:iconTint="@color/white"
+        app:iconTint="@color/white"
+        android:title="Debug"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/tutorialButton"
         android:icon="@drawable/ic_tutorial"
         android:title="Tutorial"
-        app:showAsAction="always|withText" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/printButton"
         android:icon="@drawable/ic_print"
         android:title="Print"
-        app:showAsAction="always|withText" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/scanButton"
         android:icon="@drawable/ic_scan"
         android:title="Scan"
-        app:showAsAction="always|withText" />
+        app:showAsAction="always" />
 
     <item android:id="@+id/searchButton"
         android:title="Search"

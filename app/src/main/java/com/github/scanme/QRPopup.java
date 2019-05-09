@@ -53,8 +53,7 @@ public class QRPopup extends DialogFragment {
         getDialog().setTitle(qr.getTitle());
 
         qrImage = view.findViewById(R.id.qrImage);
-        qrBitmap = BitmapFactory.decodeFile(qr.getQrPath());
-        qrImage.setImageBitmap(qrBitmap);
+        setImage();
 
         qrTitle = view.findViewById(R.id.qrTitle);
         qrTitle.setText(qr.getTitle());
@@ -102,6 +101,11 @@ public class QRPopup extends DialogFragment {
         PrintHelper photoPrinter = new PrintHelper(context);
         photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FIT);
         photoPrinter.printBitmap(qr.getTitle(), QRPrint.SINGLE.createBitmap(qr, context));
+    }
+
+    private void setImage() {
+            qrBitmap = BitmapFactory.decodeFile(qr.getQrPath());
+            qrImage.setImageBitmap(qrBitmap);
     }
 
 }

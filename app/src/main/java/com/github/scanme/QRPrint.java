@@ -3,6 +3,7 @@ package com.github.scanme;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,6 +64,7 @@ public class QRPrint {
 
     public QRPrint(Context context, List<QR> QRs) {
         this.context = context;
+        listQR = new ArrayList<>();
         this.listQR = QRs;
     }
 
@@ -244,7 +247,7 @@ public class QRPrint {
             setIcons(qr);
 
             TextView instr = view.findViewById(R.id.instructions);
-            instr.setText("Place these wherever you need. Scan later with ScanMe!");
+            instr.setText("Place wherever needed. Scan later with ScanMe!");
 
             Bitmap bitmap = BitmapHandler.createFromView(view);
             bitmap.setHeight(pageHeight);

@@ -138,7 +138,7 @@ public class CreateEntryActivity extends AppCompatActivity {
     protected void onActivityResult(int request, int result, Intent intentData) {
         takePictureIntent = intentData;
         if (request == PERMREQ_CAMERA && result == RESULT_OK) {
-            entryImage.setImageBitmap(BitmapHandler.rotateImage(this, imagePath));
+            entryImage.setImageBitmap(BitmapHandler.decodeAsThumbnail(this, imagePath, 500, 500));
             entryImage.setVisibility(View.VISIBLE);
             cameraButton.setVisibility(View.GONE);
         }

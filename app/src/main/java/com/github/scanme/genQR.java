@@ -107,7 +107,7 @@ public class genQR {
             for (int x = 0; x < bitMatrixWidth; x++) {
 
                 pixels[offset + x] = bitMatrix.get(x, y) ?
-                        context.getResources().getColor(R.color.colorPrimary):context.getResources().getColor(R.color.lightYellow);
+                        context.getResources().getColor(R.color.colorPrimaryDark):context.getResources().getColor(R.color.colorPrimaryLight);
             }
         }
         Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_8888);

@@ -161,8 +161,6 @@ public class ViewEntryActivity extends AppCompatActivity {
                 //Toast.makeText(this, "editTitle", Toast.LENGTH_SHORT).show();
                // if (dialog.isShowing())
                    // dialog.dismiss();
-               // titleEdit = new EditText(this);
-
                 dialog.setView(titleEdit);
                 //AlertDialog alertDialog = dialog.show();
                 //edit and set new title
@@ -174,7 +172,7 @@ public class ViewEntryActivity extends AppCompatActivity {
                         qr.setTitle(titleEdit.getText().toString());
                         qrRepo.update(qr);
                         dialog.dismiss();
-                        Toast.makeText(context, "Title edited!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Edit saved!", Toast.LENGTH_SHORT).show();
                     }
                 });
                 //final AlertDialog dialog = dialog.show();
@@ -193,7 +191,7 @@ public class ViewEntryActivity extends AppCompatActivity {
                             qr.setDescription(descriptionEdit.getText().toString());
                             qrRepo.update(qr);
                             dialog.dismiss();
-                            Toast.makeText(context, "Description edited!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Edit saved!", Toast.LENGTH_SHORT).show();
                         }
                     });
                 dialog.show();
@@ -214,7 +212,7 @@ public class ViewEntryActivity extends AppCompatActivity {
                         locationIcon = qr.getLocationButton((FloatingActionButton) findViewById(R.id.locationIcon));
                         qrRepo.update(qr);
                         dialog.dismiss();
-                        Toast.makeText(context, "Tag edited!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Edit saved!", Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.setOnCancelListener(
@@ -252,7 +250,7 @@ public class ViewEntryActivity extends AppCompatActivity {
 
     //gets image w. bitmap
     protected void getImage(String filePath){
-        pictureOutput.setImageBitmap(BitmapHandler.rotateImage(this, filePath));
+            pictureOutput.setImageBitmap(BitmapHandler.rotateImage(this, filePath));
     }
 
     /* Spinner Listener */
@@ -305,7 +303,7 @@ public class ViewEntryActivity extends AppCompatActivity {
         if (request == PERMREQ_CAMERA && result == RESULT_OK) {
             pictureOutput.setImageBitmap(BitmapHandler.rotateImage(this, qr.getImagePath()));
             qrRepo.update(qr);
-            Toast.makeText(context, "Image edited!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Edit saved!", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -2,6 +2,7 @@ package com.github.scanme.entrylist;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +33,8 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
 
     List<Boolean> checkboxSelections = new ArrayList<>();
     List<QR> selectedQRs = new ArrayList<>();
+    List<QR> removedQRs = new ArrayList<>();
     boolean selectMode = false;
-
-    QR deletedItem;
-    int deletedPos;
 
     private QRRepository qrRepo;
 
@@ -54,12 +53,32 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
 
     @Override
     public void onBindViewHolder(EntryViewHolder holder, final int position) {
-        QR qr = getItem(position);
+
+        final QR qr = getItem(position);
         holder.setItem(qr);
+
+       if (removedQRs.contains(qr)) {
+            holder.itemView.setVisibility(View.GONE);
+        }
+        else {
+            holder.itemView.setVisibility(View.VISIBLE);
+        }
 
        final CheckBox checkbox = holder.getCheckbox();
        checkbox.setChecked(checkboxSelections.get(position));
        holder.getCheckbox().setVisibility(selectMode ? View.VISIBLE : View.GONE);
+
+        checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setSelected(position, checkbox.isChecked());
+                Log.d("LIST", "checkbox " + position + " (" + qr.getTitle() + ") = " + checkbox.isChecked());
+                String temp = "";
+                for (QR qr : getSelectedQRs()) temp += qr.getTitle() + ", ";
+                Log.d("LIST", "adapter QRs: " + temp);
+            }
+
+        });
 
        holder.getView().setOnClickListener(new View.OnClickListener() {
            @Override
@@ -67,6 +86,10 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
                if (selectMode) { // allows selection by clicking entire row (instead of just checkbox)
                    checkbox.setChecked(!checkbox.isChecked());
                    setSelected(position, checkbox.isChecked());
+                   Log.d("LIST", "checkbox " + position + " (" + qr.getTitle() + ") = " + checkbox.isChecked());
+                   String temp = "";
+                   for (QR qr : getSelectedQRs()) temp += qr.getTitle() + ", ";
+                   Log.d("LIST", "adapter QRs: " + temp);
                } else {
                    ((MainActivity) activityContext).openViewEntryActivity(getItem(position));
                }
@@ -94,38 +117,43 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
         return entriesData.get(position);
     }
 
-    public void deleteItem(int position) {
-        deletedItem = entriesData.get(position);
-        deletedPos = position;
-        //entriesData.remove(position);
-        qrRepo.delete(deletedItem);
-
-        Toast.makeText(getContext(), "Deleted QR!", Toast.LENGTH_SHORT).show();
-       // showUndo();
+    public void deleteItem(RecyclerView.ViewHolder holder, int position) {
+        QR deletedItem = entriesData.remove(position);
+        int deletedPos = position;
+        removedQRs.add(deletedItem);
+        notifyDataSetChanged();
+        showUndo(holder, deletedItem, deletedPos);
     }
 
-    private void showUndo() {
+    private void showUndo(final RecyclerView.ViewHolder holder, final QR item, final int pos) {
+       // notifyDataSetChanged();
         View view = ((MainActivity) activityContext).findViewById(R.id.wrapper);
-        Snackbar snackbar = Snackbar.make(view, "UNDO", Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(view, "Deleted QR", Snackbar.LENGTH_LONG);
         snackbar.setAction("UNDO", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                undo();
+                undo(item, pos);
             }
         });
         snackbar.addCallback(new Snackbar.Callback() {
             @Override
             public void onDismissed(Snackbar snackbar, int event) {
                 if (event != DISMISS_EVENT_ACTION) {
-                    qrRepo.delete(deletedItem);
+                    for (QR item : removedQRs) {
+                        qrRepo.delete(item);
+                    }
+                    removedQRs.clear();
                 }
             }
         });
         snackbar.show();
     }
 
-    private void undo() {
-        entriesData.add(deletedPos, deletedItem);
+    private void undo(QR item, int pos) {
+        if (entriesData.isEmpty()) entriesData.add(item);
+        else entriesData.add(pos, item);
+        removedQRs.remove(item);
+        notifyDataSetChanged();
     }
 
     public boolean isEmpty() {
@@ -134,7 +162,6 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
 
     public void setSelectMode(boolean selectMode) {
         this.selectMode = selectMode;
-        // notifyDataSetChanged();
     }
 
     public boolean getSelectMode() {

@@ -13,10 +13,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.graphics.Matrix;
 import android.view.View;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class BitmapHandler {
@@ -103,6 +106,37 @@ public class BitmapHandler {
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         view.draw(canvas);
         return bitmap;
+    }
+
+    public static boolean saveToFile(String dir, String fileName, Bitmap bm) {
+        return saveToFile(dir, fileName, bm, Bitmap.CompressFormat.PNG, 100);
+    }
+    public static boolean saveToFile(String dirPath, String fileName, Bitmap bm, Bitmap.CompressFormat format, int quality) {
+
+        File dir = new File(dirPath);
+        if(!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        File imageFile = new File(dir, fileName);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(imageFile);
+            bm.compress(format, quality, fos);
+            fos.close();
+            return true;
+        }
+        catch (IOException e) {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e2) {
+                    e2.printStackTrace();
+                }
+            }
+        }
+        return false;
     }
 
 }

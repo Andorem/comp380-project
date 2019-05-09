@@ -23,6 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -121,6 +122,9 @@ public class QR implements Parcelable {
     }
 
     public FloatingActionButton getLocationButton(FloatingActionButton src) {
+        return getLocationButton(src, false);
+    }
+    public FloatingActionButton getLocationButton(FloatingActionButton src, boolean invert) {
         int id, color;
         switch (location) {
             case "bedroom":
@@ -148,9 +152,12 @@ public class QR implements Parcelable {
                 color = R.color.gray;
         }
         src.setImageResource(id);
-        src.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(src.getContext(), color)));
+        if (invert) src.setColorFilter(ResourcesCompat.getColor(src.getResources(), color, null));
+        else src.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(src.getContext(), color)));
         return src;
     }
+
+
 
     /* The below methods allow QR to be parcelable, i.e. able to pass to activity with intents */
 
