@@ -63,7 +63,7 @@ import com.yzq.zxinglibrary.common.Constant;
 
 public class MainActivity extends AppCompatActivity{
 
-    boolean DEBUG = true;
+    boolean DEBUG = false;
 
     List<QR> entriesData;
     EntryListAdapter entriesAdapter;

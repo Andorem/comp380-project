@@ -155,7 +155,7 @@ public class CreateEntryActivity extends AppCompatActivity {
         //ENTRY_CREATED = true;
         if (imageFile == null || !imageFile.exists()) {
             //takePicture(cameraButton);
-            showAlert("The followi");
+            showAlert("You must include a picture with your entry!");
         }
         else {
             QR newQR = new QR(ID, editTitle.getText().toString(), editDescription.getText().toString(), location, imagePath, qrPath);
