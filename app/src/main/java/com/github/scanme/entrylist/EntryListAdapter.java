@@ -52,7 +52,7 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(EntryViewHolder holder, final int position) {
+    public void onBindViewHolder(final EntryViewHolder holder, final int position) {
 
         final QR qr = getItem(position);
         holder.setItem(qr);
@@ -67,15 +67,13 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
        final CheckBox checkbox = holder.getCheckbox();
        checkbox.setChecked(checkboxSelections.get(position));
        holder.getCheckbox().setVisibility(selectMode ? View.VISIBLE : View.GONE);
+       holder.toggleHighlight();
 
         checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setSelected(position, checkbox.isChecked());
-                Log.d("LIST", "checkbox " + position + " (" + qr.getTitle() + ") = " + checkbox.isChecked());
-                String temp = "";
-                for (QR qr : getSelectedQRs()) temp += qr.getTitle() + ", ";
-                Log.d("LIST", "adapter QRs: " + temp);
+                holder.toggleHighlight();
             }
 
         });
@@ -86,16 +84,14 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
                if (selectMode) { // allows selection by clicking entire row (instead of just checkbox)
                    checkbox.setChecked(!checkbox.isChecked());
                    setSelected(position, checkbox.isChecked());
-                   Log.d("LIST", "checkbox " + position + " (" + qr.getTitle() + ") = " + checkbox.isChecked());
-                   String temp = "";
-                   for (QR qr : getSelectedQRs()) temp += qr.getTitle() + ", ";
-                   Log.d("LIST", "adapter QRs: " + temp);
+                   holder.toggleHighlight();
                } else {
                    ((MainActivity) activityContext).openViewEntryActivity(getItem(position));
                }
            }
 
        });
+
     }
 
     public void updateEntries(List<QR> entries) {

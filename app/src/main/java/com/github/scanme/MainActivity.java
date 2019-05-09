@@ -63,7 +63,7 @@ import com.yzq.zxinglibrary.common.Constant;
 
 public class MainActivity extends AppCompatActivity{
 
-    boolean DEBUG = false;
+    boolean DEBUG = true;
 
     List<QR> entriesData;
     EntryListAdapter entriesAdapter;
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity{
             // Create welcome entry
             Bitmap bm = BitmapFactory.decodeResource(getResources(), R.raw.logo);
             BitmapHandler.saveToFile(getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString(), "logo.png", bm);
-            qrRepo.insert(new QR("logo", "Welcome to ScanMe!", "Welcome! This is an example entry. Create your own!",
+            qrRepo.insert(new QR("logo", "Welcome to ScanMe!", getResources().getString(R.string.welcome),
                     "other", getExternalFilesDir(Environment.DIRECTORY_PICTURES) +"/logo.png", getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString() +"logo.png"));
 
             //do something
@@ -324,6 +324,9 @@ public class MainActivity extends AppCompatActivity{
             if (data != null) {
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
                 openViewEntryActivity(content);
+            }
+            else {
+                Toast.makeText(MainActivity.this, "QR not recognized!",Toast.LENGTH_SHORT).show();
             }
         }
     }
